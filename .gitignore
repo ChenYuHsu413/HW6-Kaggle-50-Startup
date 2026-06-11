@@ -4,4 +4,5 @@ __pycache__/
 .DS_Store
 node_modules/
 startup-presentation-video/render-check-20s.png
+startup-presentation-video/render-check-active.png
 startup-presentation-video/assets/test-zhiwei.wav
