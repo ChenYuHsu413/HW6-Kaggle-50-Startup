@@ -2,6 +2,8 @@
 
 This project predicts startup `Profit` from business spending features and State data using a CRISP-DM machine learning workflow.
 
+![HW6 50 Startups CRISP-DM Visual Summary](plots/crisp_dm_v2/readme_visual_summary.png)
+
 ## Files [FILES]
 
 | File or Folder | Description |
