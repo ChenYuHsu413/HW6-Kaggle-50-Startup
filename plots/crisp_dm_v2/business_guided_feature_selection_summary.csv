@@ -1,0 +1,6 @@
+Feature Set Name,Selected Features,Number of Features,R-squared,Adjusted R2,MAE,RMSE
+1 feature: R&D,[R&D Spend],1,0.9265108109341951,0.9173246623009694,6077.363300620399,7714.334890830185
+2 features: R&D + Marketing,"[R&D Spend, Marketing Spend]",2,0.9168381183550247,0.8930775807421746,6469.181721468586,8206.32881316585
+3 features: R&D + Marketing + Administration,"[R&D Spend, Marketing Spend, Administration]",3,0.900065308303732,0.850097962455598,6979.152252370399,8995.905803361416
+4 features: Add State_Florida,"[R&D Spend, Marketing Spend, Administration, State_Florida]",4,0.8987266318428203,0.8177079373170766,6961.4868457142,9055.95775223373
+5 features: Add all State dummies,"[R&D Spend, Marketing Spend, Administration, State_Florida, State_New York]",5,0.8987266414328636,0.7721349432239432,6961.477813252384,9055.957323458471
