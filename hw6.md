@@ -8,6 +8,10 @@ This homework implements a complete machine learning regression workflow for the
 
 The project follows the CRISP-DM process and uses scikit-learn pipelines to compare multiple feature sets and feature selection algorithms.
 
+## Visual Summary [CHART]
+
+![HW6 50 Startups CRISP-DM Visual Summary](plots/crisp_dm_v2/readme_visual_summary.png)
+
 ## Workflow [FLOW]
 
 ![HW6 CRISP-DM Workflow](plots/crisp_dm_v2/workflow.png)
