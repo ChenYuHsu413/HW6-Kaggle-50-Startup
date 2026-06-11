@@ -1,0 +1,123 @@
+[
+  {
+    "page": 1,
+    "caption": "用 CRISP-DM 與 Scikit-Learn，預測五十家新創公司的獲利。",
+    "text": "這份簡報的主題，是預測五十家新創公司的獲利。我們用 CRISP-DM 方法，配合 Scikit-Learn，讓商業問題和演算法一起說話。",
+    "audio": "assets/narration/slide-01.wav",
+    "audioDuration": 16.364,
+    "start": 0.0,
+    "duration": 17.414,
+    "captionStart": 0.45,
+    "captionEnd": 16.514
+  },
+  {
+    "page": 2,
+    "caption": "商業目標：找出真正推動 Profit 的投資槓桿。",
+    "text": "首先，商業目標很清楚。我們要根據研發、行政、行銷和地區資料，判斷哪一個槓桿，真正推動 Profit。",
+    "audio": "assets/narration/slide-02.wav",
+    "audioDuration": 13.959,
+    "start": 16.864,
+    "duration": 15.009,
+    "captionStart": 17.314,
+    "captionEnd": 30.974
+  },
+  {
+    "page": 3,
+    "caption": "CRISP-DM 把問題、資料、模型與評估連成一條完整流程。",
+    "text": "接著，用 CRISP-DM 建立結構。從商業理解，到資料理解、資料準備、建模、評估，最後回到專家式商業結論。",
+    "audio": "assets/narration/slide-03.wav",
+    "audioDuration": 14.9,
+    "start": 31.324,
+    "duration": 15.95,
+    "captionStart": 31.774,
+    "captionEnd": 46.373
+  },
+  {
+    "page": 4,
+    "caption": "工具箱重點：Pipeline、ColumnTransformer、One-Hot Encoding、LinearRegression。",
+    "text": "在工具上，我們使用 Pipeline 和 ColumnTransformer 組織流程。State 用 One-Hot Encoding，並且 drop first，避免虛擬變數陷阱。",
+    "audio": "assets/narration/slide-04.wav",
+    "audioDuration": 15.362,
+    "start": 46.724,
+    "duration": 16.412,
+    "captionStart": 47.174,
+    "captionEnd": 62.236
+  },
+  {
+    "page": 5,
+    "caption": "分析分成兩條路：人類商業邏輯，以及機器特徵選擇。",
+    "text": "接下來分成兩條路。一條是人類的商業判斷，另一條是機器的原始數字。重點是看兩者是否收斂。",
+    "audio": "assets/narration/slide-05.wav",
+    "audioDuration": 14.056,
+    "start": 62.586,
+    "duration": 15.106,
+    "captionStart": 63.036,
+    "captionEnd": 76.791
+  },
+  {
+    "page": 6,
+    "caption": "人類路徑設計五組實驗，逐步檢查每個特徵是否真的有價值。",
+    "text": "在人類引導的實驗裡，我們從只使用 R and D Spend 開始，逐步加入 Marketing、Administration、State，也測試 State only。",
+    "audio": "assets/narration/slide-06.wav",
+    "audioDuration": 13.698,
+    "start": 77.141,
+    "duration": 14.748,
+    "captionStart": 77.591,
+    "captionEnd": 90.989
+  },
+  {
+    "page": 7,
+    "caption": "機器路徑用 Wrapper、Embedded、Filter 三類方法尋找最佳特徵。",
+    "text": "在演算法路徑上，我們使用 wrapper、embedded 和 filter 方法。也就是反覆選擇、懲罰複雜度，以及統計篩選。",
+    "audio": "assets/narration/slide-07.wav",
+    "audioDuration": 13.821,
+    "start": 91.339,
+    "duration": 14.871,
+    "captionStart": 91.789,
+    "captionEnd": 105.31
+  },
+  {
+    "page": 8,
+    "caption": "兩條路徑收斂：R&D Spend 是最穩定、最強的單一預測因子。",
+    "text": "結果最重要的一點，是人類邏輯和演算法判斷收斂。兩邊都選出 R and D Spend only，作為最強而且最穩定的模型。",
+    "audio": "assets/narration/slide-08.wav",
+    "audioDuration": 14.785,
+    "start": 105.66,
+    "duration": 15.835,
+    "captionStart": 106.11,
+    "captionEnd": 120.595
+  },
+  {
+    "page": 9,
+    "caption": "更多特徵不一定更好，複雜度可能帶來誤差與雜訊。",
+    "text": "從圖表可以看到，加入更多特徵不一定更好。模型可能因為噪音而降低適配度，也可能讓 RMSE 變高。",
+    "audio": "assets/narration/slide-09.wav",
+    "audioDuration": 13.84,
+    "start": 120.945,
+    "duration": 14.89,
+    "captionStart": 121.395,
+    "captionEnd": 134.935
+  },
+  {
+    "page": 10,
+    "caption": "特徵權重顯示：R&D 是核心，Marketing 是輔助，Administration 與 State 要保守解讀。",
+    "text": "特徵權重的解讀也一致。R and D Spend 是核心獲利引擎，Marketing 有輔助價值；Administration 和 State 則要保守看待。",
+    "audio": "assets/narration/slide-10.wav",
+    "audioDuration": 14.348,
+    "start": 135.285,
+    "duration": 15.398,
+    "captionStart": 135.735,
+    "captionEnd": 149.784
+  },
+  {
+    "page": 11,
+    "caption": "最後原則：資料很小，商業洞察很大。選擇能說對故事的特徵。",
+    "text": "最後的結論是，資料很小，但商業洞察很大。最佳實務不是堆疊特徵，而是選擇能說出正確故事的特徵。",
+    "audio": "assets/narration/slide-11.wav",
+    "audioDuration": 14.264,
+    "start": 150.134,
+    "duration": 15.864,
+    "captionStart": 150.584,
+    "captionEnd": 164.548
+  }
+]

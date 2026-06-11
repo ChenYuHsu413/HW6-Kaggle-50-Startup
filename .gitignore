@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+node_modules/
+startup-presentation-video/render-check-20s.png
+startup-presentation-video/assets/test-zhiwei.wav

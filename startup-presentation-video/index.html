@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #10151a;
+      }
+
+      body {
+        font-family: sans-serif;
+        color: #f8f1df;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 22% 18%, rgba(23, 98, 109, 0.42), rgba(23, 98, 109, 0) 34%),
+          radial-gradient(circle at 82% 75%, rgba(194, 64, 49, 0.32), rgba(194, 64, 49, 0) 30%),
+          linear-gradient(135deg, #111922 0%, #17242b 47%, #0d1218 100%);
+        perspective: 1800px;
+      }
+
+      .texture {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        opacity: 0.22;
+        background-image:
+          linear-gradient(rgba(248, 241, 223, 0.18) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(248, 241, 223, 0.14) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: radial-gradient(circle at 50% 50%, black, rgba(0, 0, 0, 0.1) 72%);
+      }
+
+      .ghost-title {
+        position: absolute;
+        right: -38px;
+        bottom: 20px;
+        z-index: 0;
+        width: 680px;
+        height: 150px;
+      }
+
+      .ghost-title::before {
+        content: "CRISP-DM";
+        font-family: monospace;
+        font-size: 122px;
+        font-weight: 800;
+        letter-spacing: 0;
+        color: rgba(248, 241, 223, 0.1);
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        grid-template-rows: 116px 1fr 130px;
+        width: 100%;
+        height: 100%;
+        padding: 46px 70px 42px;
+        transform-style: preserve-3d;
+      }
+
+      .scene-meta {
+        grid-column: 1 / 3;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 92px;
+        color: #f8f1df;
+      }
+
+      .kicker {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-family: monospace;
+        font-size: 25px;
+        font-weight: 700;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #dfb85a;
+        box-shadow: 0 0 26px rgba(223, 184, 90, 0.72);
+      }
+
+      .page-number {
+        font-family: monospace;
+        font-size: 30px;
+        font-weight: 700;
+        color: #9ed0cf;
+      }
+
+      .side-rail {
+        grid-row: 2 / 4;
+        grid-column: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 18px 28px 8px 0;
+      }
+
+      .rail-rule {
+        width: 4px;
+        height: 610px;
+        background: linear-gradient(#dfb85a, #2aa6a2 50%, #c24031);
+        border-radius: 999px;
+        transform-origin: top;
+      }
+
+      .rail-copy {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font-family: monospace;
+        font-size: 22px;
+        color: rgba(248, 241, 223, 0.72);
+      }
+
+      .slide-zone {
+        grid-column: 2;
+        grid-row: 2;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        min-height: 0;
+        transform-style: preserve-3d;
+      }
+
+      .page-card {
+        position: relative;
+        width: 1480px;
+        aspect-ratio: 2752 / 1536;
+        border-radius: 8px;
+        background: #f8f1df;
+        box-shadow:
+          0 38px 90px rgba(0, 0, 0, 0.42),
+          0 0 0 3px rgba(248, 241, 223, 0.18);
+        overflow: hidden;
+        transform-origin: left center;
+      }
+
+      .slide-img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
+
+      .turn-sheen {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          100deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.52) 42%,
+          rgba(32, 48, 58, 0.18) 54%,
+          rgba(255, 255, 255, 0) 74%
+        );
+        opacity: 0;
+        transform: translateX(-60%) skewX(-12deg);
+        mix-blend-mode: screen;
+      }
+
+      .caption {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 48px;
+        z-index: 5;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .caption span {
+        max-width: 1450px;
+        min-height: 82px;
+        padding: 20px 38px 22px;
+        border: 3px solid rgba(248, 241, 223, 0.5);
+        border-radius: 8px;
+        background: rgba(10, 18, 24, 0.82);
+        box-shadow: 0 24px 58px rgba(0, 0, 0, 0.36);
+        color: #f8f1df;
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 1.28;
+        text-align: center;
+      }
+
+      .progress {
+        position: absolute;
+        left: 292px;
+        right: 70px;
+        bottom: 22px;
+        z-index: 6;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(248, 241, 223, 0.16);
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        width: 100%;
+        height: 100%;
+        transform: scaleX(0);
+        transform-origin: left;
+        background: linear-gradient(90deg, #dfb85a, #2aa6a2, #c24031);
+      }
+
+      .fadeout {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        background: #10151a;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      audio {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="165.998"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div class="texture" data-layout-ignore></div>
+      <div class="ghost-title" data-layout-ignore aria-hidden="true"></div>
+      <section id="scene-01" class="clip scene" data-start="0.0" data-duration="17.414" data-track-index="0">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">01 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-01.png" alt="Slide 01" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <section id="scene-02" class="clip scene" data-start="16.864" data-duration="15.009" data-track-index="1">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">02 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-02.png" alt="Slide 02" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <section id="scene-03" class="clip scene" data-start="31.324" data-duration="15.95" data-track-index="0">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">03 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-03.png" alt="Slide 03" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <section id="scene-04" class="clip scene" data-start="46.724" data-duration="16.412" data-track-index="1">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">04 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-04.png" alt="Slide 04" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <section id="scene-05" class="clip scene" data-start="62.586" data-duration="15.106" data-track-index="0">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">05 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-05.png" alt="Slide 05" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <section id="scene-06" class="clip scene" data-start="77.141" data-duration="14.748" data-track-index="1">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">06 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-06.png" alt="Slide 06" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <section id="scene-07" class="clip scene" data-start="91.339" data-duration="14.871" data-track-index="0">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">07 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-07.png" alt="Slide 07" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <section id="scene-08" class="clip scene" data-start="105.66" data-duration="15.835" data-track-index="1">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">08 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-08.png" alt="Slide 08" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <section id="scene-09" class="clip scene" data-start="120.945" data-duration="14.89" data-track-index="0">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">09 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-09.png" alt="Slide 09" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <section id="scene-10" class="clip scene" data-start="135.285" data-duration="15.398" data-track-index="1">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">10 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-10.png" alt="Slide 10" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <section id="scene-11" class="clip scene" data-start="150.134" data-duration="15.864" data-track-index="0">
+        <header class="scene-meta">
+          <div class="kicker"><span class="dot"></span><span>Decoding Startup Profit</span></div>
+          <div class="page-number">11 / 11</div>
+        </header>
+        <aside class="side-rail">
+          <div class="rail-rule"></div>
+          <div class="rail-copy">Business Insight + Algorithmic Math</div>
+        </aside>
+        <main class="slide-zone">
+          <div class="page-card">
+            <img class="slide-img" src="assets/slides/slide-11.png" alt="Slide 11" />
+            <div class="turn-sheen"></div>
+          </div>
+        </main>
+      </section>
+      <audio id="voice-01" class="clip" src="assets/narration/slide-01.wav" data-start="0.0" data-duration="16.364" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-02" class="clip" src="assets/narration/slide-02.wav" data-start="16.864" data-duration="13.959" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-03" class="clip" src="assets/narration/slide-03.wav" data-start="31.324" data-duration="14.9" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-04" class="clip" src="assets/narration/slide-04.wav" data-start="46.724" data-duration="15.362" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-05" class="clip" src="assets/narration/slide-05.wav" data-start="62.586" data-duration="14.056" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-06" class="clip" src="assets/narration/slide-06.wav" data-start="77.141" data-duration="13.698" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-07" class="clip" src="assets/narration/slide-07.wav" data-start="91.339" data-duration="13.821" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-08" class="clip" src="assets/narration/slide-08.wav" data-start="105.66" data-duration="14.785" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-09" class="clip" src="assets/narration/slide-09.wav" data-start="120.945" data-duration="13.84" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-10" class="clip" src="assets/narration/slide-10.wav" data-start="135.285" data-duration="14.348" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-11" class="clip" src="assets/narration/slide-11.wav" data-start="150.134" data-duration="14.264" data-track-index="12" data-volume="1"></audio>
+      <div id="caption-01" class="clip caption" data-start="0.45" data-duration="16.064" data-track-index="20">
+        <span>用 CRISP-DM 與 Scikit-Learn，預測五十家新創公司的獲利。</span>
+      </div>
+      <div id="caption-02" class="clip caption" data-start="17.314" data-duration="13.66" data-track-index="20">
+        <span>商業目標：找出真正推動 Profit 的投資槓桿。</span>
+      </div>
+      <div id="caption-03" class="clip caption" data-start="31.774" data-duration="14.599" data-track-index="20">
+        <span>CRISP-DM 把問題、資料、模型與評估連成一條完整流程。</span>
+      </div>
+      <div id="caption-04" class="clip caption" data-start="47.174" data-duration="15.062" data-track-index="20">
+        <span>工具箱重點：Pipeline、ColumnTransformer、One-Hot Encoding、LinearRegression。</span>
+      </div>
+      <div id="caption-05" class="clip caption" data-start="63.036" data-duration="13.755" data-track-index="20">
+        <span>分析分成兩條路：人類商業邏輯，以及機器特徵選擇。</span>
+      </div>
+      <div id="caption-06" class="clip caption" data-start="77.591" data-duration="13.398" data-track-index="20">
+        <span>人類路徑設計五組實驗，逐步檢查每個特徵是否真的有價值。</span>
+      </div>
+      <div id="caption-07" class="clip caption" data-start="91.789" data-duration="13.521" data-track-index="20">
+        <span>機器路徑用 Wrapper、Embedded、Filter 三類方法尋找最佳特徵。</span>
+      </div>
+      <div id="caption-08" class="clip caption" data-start="106.11" data-duration="14.485" data-track-index="20">
+        <span>兩條路徑收斂：R&D Spend 是最穩定、最強的單一預測因子。</span>
+      </div>
+      <div id="caption-09" class="clip caption" data-start="121.395" data-duration="13.54" data-track-index="20">
+        <span>更多特徵不一定更好，複雜度可能帶來誤差與雜訊。</span>
+      </div>
+      <div id="caption-10" class="clip caption" data-start="135.735" data-duration="14.049" data-track-index="20">
+        <span>特徵權重顯示：R&D 是核心，Marketing 是輔助，Administration 與 State 要保守解讀。</span>
+      </div>
+      <div id="caption-11" class="clip caption" data-start="150.584" data-duration="13.964" data-track-index="20">
+        <span>最後原則：資料很小，商業洞察很大。選擇能說對故事的特徵。</span>
+      </div>
+      <div class="progress"><div class="progress-fill"></div></div>
+      <div class="fadeout"></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+
+      const SCENES = [
+        {
+                "page": 1,
+                "start": 0.0,
+                "duration": 17.414,
+                "audioDuration": 16.364,
+                "captionStart": 0.45,
+                "captionEnd": 16.514
+        },
+        {
+                "page": 2,
+                "start": 16.864,
+                "duration": 15.009,
+                "audioDuration": 13.959,
+                "captionStart": 17.314,
+                "captionEnd": 30.974
+        },
+        {
+                "page": 3,
+                "start": 31.324,
+                "duration": 15.95,
+                "audioDuration": 14.9,
+                "captionStart": 31.774,
+                "captionEnd": 46.373
+        },
+        {
+                "page": 4,
+                "start": 46.724,
+                "duration": 16.412,
+                "audioDuration": 15.362,
+                "captionStart": 47.174,
+                "captionEnd": 62.236
+        },
+        {
+                "page": 5,
+                "start": 62.586,
+                "duration": 15.106,
+                "audioDuration": 14.056,
+                "captionStart": 63.036,
+                "captionEnd": 76.791
+        },
+        {
+                "page": 6,
+                "start": 77.141,
+                "duration": 14.748,
+                "audioDuration": 13.698,
+                "captionStart": 77.591,
+                "captionEnd": 90.989
+        },
+        {
+                "page": 7,
+                "start": 91.339,
+                "duration": 14.871,
+                "audioDuration": 13.821,
+                "captionStart": 91.789,
+                "captionEnd": 105.31
+        },
+        {
+                "page": 8,
+                "start": 105.66,
+                "duration": 15.835,
+                "audioDuration": 14.785,
+                "captionStart": 106.11,
+                "captionEnd": 120.595
+        },
+        {
+                "page": 9,
+                "start": 120.945,
+                "duration": 14.89,
+                "audioDuration": 13.84,
+                "captionStart": 121.395,
+                "captionEnd": 134.935
+        },
+        {
+                "page": 10,
+                "start": 135.285,
+                "duration": 15.398,
+                "audioDuration": 14.348,
+                "captionStart": 135.735,
+                "captionEnd": 149.784
+        },
+        {
+                "page": 11,
+                "start": 150.134,
+                "duration": 15.864,
+                "audioDuration": 14.264,
+                "captionStart": 150.584,
+                "captionEnd": 164.548
+        }
+];
+      const totalDuration = 165.998;
+      const tl = gsap.timeline({ paused: true });
+
+      SCENES.forEach((scene, index) => {
+        const page = String(scene.page).padStart(2, "0");
+        const turnFrom = index % 2 === 0 ? -30 : 30;
+        const moveFrom = index % 2 === 0 ? -92 : 92;
+        const s = scene.start;
+        const cStart = scene.captionStart;
+        const cEnd = scene.captionEnd;
+
+        tl.fromTo(`#scene-${page} .scene-meta`, { opacity: 0, y: -36 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, s + 0.12);
+        tl.fromTo(`#scene-${page} .rail-rule`, { scaleY: 0 }, { scaleY: 1, duration: 0.88, ease: "expo.out" }, s + 0.2);
+        tl.fromTo(`#scene-${page} .rail-copy`, { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 0.62, ease: "sine.out" }, s + 0.42);
+        tl.fromTo(`#scene-${page} .page-card`, { opacity: 0, rotationY: turnFrom, x: moveFrom, scale: 0.965, filter: "blur(12px)" }, { opacity: 1, rotationY: 0, x: 0, scale: 1, filter: "blur(0px)", duration: 0.92, ease: "power4.out" }, s + 0.08);
+        tl.fromTo(`#scene-${page} .turn-sheen`, { opacity: 0, xPercent: -70 }, { opacity: 0.78, xPercent: 95, duration: 0.66, ease: "power2.inOut" }, s + 0.12);
+        tl.to(`#scene-${page} .turn-sheen`, { opacity: 0, duration: 0.18, ease: "power1.out" }, s + 0.82);
+        tl.fromTo(`#caption-${page}`, { opacity: 0, y: 28, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }, cStart);
+        tl.to(`#caption-${page}`, { opacity: 0, scale: 0.98, duration: 0.16, ease: "power2.in" }, cEnd - 0.16);
+        tl.set(`#caption-${page}`, { opacity: 0, visibility: "hidden" }, cEnd);
+      });
+
+      tl.to(".progress-fill", { scaleX: 1, duration: totalDuration, ease: "none" }, 0);
+      tl.to(".ghost-title", { x: -46, opacity: 0.64, duration: totalDuration, ease: "none" }, 0);
+      tl.to(".texture", { x: 38, y: -28, duration: totalDuration, ease: "none" }, 0);
+      tl.to(".fadeout", { opacity: 1, duration: 0.9, ease: "power1.inOut" }, totalDuration - 0.9);
+
+      SCENES.forEach((scene) => {
+        const page = String(scene.page).padStart(2, "0");
+        const el = document.getElementById(`caption-${page}`);
+        tl.seek(scene.captionEnd + 0.01);
+        const computed = window.getComputedStyle(el);
+        if (computed.opacity !== "0" && computed.visibility !== "hidden") {
+          console.warn(`[caption-lint] caption ${page} still visible after its end time`);
+        }
+      });
+      tl.seek(0);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
