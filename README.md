@@ -1,61 +1,97 @@
-# 50 Startups CRISP-DM Regression Project
+# Kaggle 50 Startups Linear Regression Analysis
 
-This project predicts startup `Profit` from business spending features and State data using a CRISP-DM machine learning workflow.
+## Project Overview
 
-![HW6 50 Startups CRISP-DM Visual Summary](plots/crisp_dm_v2/readme_visual_summary.png)
+This project analyzes the Kaggle 50 Startups dataset using Multiple Linear Regression.
+The goal is to predict company profit based on business spending features and state information,
+following the CRISP-DM machine learning workflow.
 
-## Files [FILES]
+![HW6 50 Startups CRISP-DM Visual Summary](sources/ChatGPT_02.png)
+
+## Dataset
+
+The dataset is stored in:
+
+`sources/50_Startups.csv`
+
+Columns:
+
+- R&D Spend
+- Administration
+- Marketing Spend
+- State
+- Profit
+
+The `sources/` folder contains the original dataset and should not be deleted.
+
+## Project Structure
 
 | File or Folder | Description |
 |---|---|
-| `50_startups_crisp_dm_v2.py` | Main executable Python script |
+| `src/modeling.py` | Main executable CRISP-DM analysis script |
+| `sources/50_Startups.csv` | Original dataset |
+| `outputs/figures/` | Generated charts and the workflow image |
+| `outputs/metrics/` | Generated CSV metric tables |
 | `design.md` | Project design requirements |
-| `sources/50_Startups.csv` | Local dataset copy |
-| `plots/crisp_dm_v2/` | Generated charts, workflow image, and CSV outputs |
 | `hw6.md` | Homework report summary |
+| `archive/` | Earlier draft scripts and development log (reference only) |
+| `startup-presentation-video-pptx/` | Presentation video project and final MP4 render |
 
-## How to Run [RUN]
+## Methodology
+
+This project follows the CRISP-DM process:
+
+1. Business Understanding
+2. Data Understanding
+3. Data Preparation
+4. Modeling
+5. Evaluation
+6. Deployment / Reporting
+
+Workflow image: `outputs/figures/workflow.png`
+
+## Experiments
+
+The project includes experiments on:
+
+- Using 1 to 4 numerical/business features (Models A–E)
+- Evaluating the effect of the `State` categorical variable with `OneHotEncoder(drop="first")`
+- Comparing model performance using RMSE, MAE, R², and Adjusted R²
+- Five feature selection algorithms: Sequential Feature Selection, RFE, Lasso,
+  SelectKBest, and Random Forest Feature Importance
+
+## How to Run
+
+Run from the project root:
 
 ```bash
-python 50_startups_crisp_dm_v2.py
+pip install -r requirements.txt
+python src/modeling.py
 ```
 
-The script loads the dataset, performs CRISP-DM analysis, trains regression models, compares feature sets, runs feature selection algorithms, and saves visualization results.
+The script loads the dataset (URL first, local `sources/50_Startups.csv` as fallback),
+performs CRISP-DM analysis, trains the regression models, compares feature sets,
+runs the feature selection algorithms, and saves all results.
 
-## Main Libraries [TOOLS]
+## Outputs
 
-- pandas
-- numpy
-- matplotlib
-- scikit-learn
+Generated outputs are saved under:
 
-## Workflow [FLOW]
+- `outputs/figures/` — PNG charts
+- `outputs/metrics/` — CSV metric tables
 
-1. `[GOAL]` Business Understanding
-2. `[DATA]` Data Understanding
-3. `[PREP]` Data Preparation
-4. `[MODEL]` Modeling
-5. `[SELECT]` Feature Selection
-6. `[METRIC]` Evaluation
-7. `[CHART]` Visualization
-8. `[DONE]` Business Conclusion
-
-Workflow image:
-
-`plots/crisp_dm_v2/workflow.png`
-
-## Key Outputs [CHART]
+Key result images:
 
 | Output | File |
 |---|---|
-| Feature selection all-in-one summary | `plots/crisp_dm_v2/feature_selection_performance_allinone_summary.png` |
-| Business-guided feature selection | `plots/crisp_dm_v2/business_guided_feature_selection_summary.png` |
-| Marketing vs Administration comparison | `plots/crisp_dm_v2/marketing_vs_administration_comparison.png` |
-| Model comparison by Adjusted R2 | `plots/crisp_dm_v2/model_comparison_adjusted_r2.png` |
-| Model comparison by RMSE | `plots/crisp_dm_v2/model_comparison_rmse.png` |
-| Best model actual vs predicted | `plots/crisp_dm_v2/best_model_actual_vs_predicted.png` |
+| Feature selection all-in-one summary | `outputs/figures/feature_selection_performance_allinone_summary.png` |
+| Business-guided feature selection | `outputs/figures/business_guided_feature_selection_summary.png` |
+| Marketing vs Administration comparison | `outputs/figures/marketing_vs_administration_comparison.png` |
+| Model comparison by Adjusted R² | `outputs/figures/model_comparison_adjusted_r2.png` |
+| Model comparison by RMSE | `outputs/figures/model_comparison_rmse.png` |
+| Best model actual vs predicted | `outputs/figures/best_model_actual_vs_predicted.png` |
 
-## Best Model Result [BEST]
+## Best Model Result
 
 The best model on the current test split is:
 
@@ -63,23 +99,14 @@ The best model on the current test split is:
 
 | Metric | Value |
 |---|---:|
-| R-squared | `0.9265` |
-| Adjusted R2 | `0.9173` |
+| R² | `0.9265` |
+| Adjusted R² | `0.9173` |
 | MAE | `6,077.36` |
 | RMSE | `7,714.33` |
 
-## Feature Selection Summary [SELECT]
+## Business Conclusion
 
-Five feature selection methods were implemented:
-
-- Sequential Feature Selection
-- RFE
-- Lasso
-- SelectKBest
-- Random Forest Feature Importance
-
-All five methods identify `R&D Spend` as the best one-feature result.
-
-## Business Conclusion [DONE]
-
-`R&D Spend` is the strongest profit driver. `Marketing Spend` is a useful supporting feature and performs better than `Administration` when compared after R&D. `Administration` is less stable, and `State` should be treated as a supporting feature only because the dataset is small.
+`R&D Spend` is the strongest profit driver. `Marketing Spend` is a useful supporting
+feature and performs better than `Administration` when compared after R&D.
+`Administration` is less stable, and `State` should be treated as a supporting feature
+only, because the dataset has just 50 rows.

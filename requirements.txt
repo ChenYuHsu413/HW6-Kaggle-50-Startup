@@ -1,0 +1,13 @@
+# Core dependencies for src/modeling.py
+pandas
+numpy
+scikit-learn
+matplotlib
+
+# Used by archived diagnostic scripts (archive/advanced_analysis.py)
+scipy
+statsmodels
+
+# Optional tooling
+seaborn
+jupyter

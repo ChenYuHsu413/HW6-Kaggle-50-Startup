@@ -10,11 +10,11 @@ The project follows the CRISP-DM process and uses scikit-learn pipelines to comp
 
 ## Visual Summary [CHART]
 
-![HW6 50 Startups CRISP-DM Visual Summary](plots/crisp_dm_v2/readme_visual_summary.png)
+![HW6 50 Startups CRISP-DM Visual Summary](outputs/figures/readme_visual_summary.png)
 
 ## Workflow [FLOW]
 
-![HW6 CRISP-DM Workflow](plots/crisp_dm_v2/workflow.png)
+![HW6 CRISP-DM Workflow](outputs/figures/workflow.png)
 
 Icon legend:
 
@@ -34,7 +34,7 @@ Icon legend:
 
 Main file:
 
-`50_startups_crisp_dm_v2.py`
+`src/modeling.py` (originally developed as `50_startups_crisp_dm_v2.py`)
 
 The script includes:
 
@@ -89,13 +89,13 @@ All five methods found `R&D Spend` as the strongest one-feature result.
 
 | Output | File |
 |---|---|
-| Workflow diagram | `plots/crisp_dm_v2/workflow.png` |
-| Business-guided feature selection summary | `plots/crisp_dm_v2/business_guided_feature_selection_summary.png` |
-| Sequential feature selection summary | `plots/crisp_dm_v2/sequential_feature_selection_summary.png` |
-| All-in-one feature selection comparison | `plots/crisp_dm_v2/feature_selection_performance_allinone_summary.png` |
-| Marketing vs Administration comparison | `plots/crisp_dm_v2/marketing_vs_administration_comparison.png` |
-| Actual vs predicted plot | `plots/crisp_dm_v2/best_model_actual_vs_predicted.png` |
-| Correlation heatmap | `plots/crisp_dm_v2/correlation_heatmap.png` |
+| Workflow diagram | `outputs/figures/workflow.png` |
+| Business-guided feature selection summary | `outputs/figures/business_guided_feature_selection_summary.png` |
+| Sequential feature selection summary | `outputs/figures/sequential_feature_selection_summary.png` |
+| All-in-one feature selection comparison | `outputs/figures/feature_selection_performance_allinone_summary.png` |
+| Marketing vs Administration comparison | `outputs/figures/marketing_vs_administration_comparison.png` |
+| Actual vs predicted plot | `outputs/figures/best_model_actual_vs_predicted.png` |
+| Correlation heatmap | `outputs/figures/correlation_heatmap.png` |
 
 ## Main Business Interpretation [GOAL]
 
