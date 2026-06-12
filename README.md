@@ -7,7 +7,8 @@
 | 📖 Tutorial webpage (slide deck + notes) | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/tutorial/> |
 | 🎬 Presentation video V2 (76s dynamic cut) | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/startup-presentation-video-v2/renders/startup-profit-presentation-v2.mp4> |
 | 🎬 Presentation video V1 (full version) | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/startup-presentation-video-pptx/renders/startup-profit-presentation.mp4> |
-| 🚀 Interactive Streamlit app | Run locally with `streamlit run streamlit_app.py`, or deploy this repo on [Streamlit Community Cloud]([https://share.streamlit.io](https://chenyu-hw6-kaggle-50-startup.streamlit.app/)) |
+| 🚀 Interactive Streamlit app | <https://chenyu-hw6-kaggle-50-startup.streamlit.app/> |
+| 📖 技術白皮書 | <<https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/sources/HW6_50_Startups_Technical_Whitepaper.pdf> |
 
 > The GitHub Pages links require Pages to be enabled once:
 > repo **Settings → Pages → Deploy from a branch → `main` / `(root)`**.
