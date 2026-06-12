@@ -35,6 +35,8 @@ following the CRISP-DM machine learning workflow.
 
 ![HW6 50 Startups CRISP-DM Visual Summary](sources/ChatGPT_02.png)
 
+![HW6 2026-06-12 v4 Work Summary](sources/ChatGPT_03.png)
+
 ## Dataset
 
 The dataset is stored in:
