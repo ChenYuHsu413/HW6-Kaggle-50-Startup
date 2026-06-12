@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #181310;
+      }
+
+      body {
+        font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+        color: #f6f1e2;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 24% 16%, rgba(223, 184, 90, 0.16), rgba(223, 184, 90, 0) 38%),
+          radial-gradient(circle at 80% 82%, rgba(194, 64, 49, 0.14), rgba(194, 64, 49, 0) 34%),
+          linear-gradient(140deg, #201914 0%, #181310 55%, #120e0b 100%);
+      }
+
+      /* ------------------------------------------------------------------ */
+      /* Scenes: full-bleed hand-drawn slides with camera motion             */
+      /* ------------------------------------------------------------------ */
+      .scene {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      .slide-wrap {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        will-change: transform, opacity, filter;
+      }
+
+      .slide-wrap img.ken {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        will-change: transform;
+      }
+
+      /* second slide inside a two-shot scene starts hidden */
+      .slide-wrap.shot-b {
+        opacity: 0;
+      }
+
+      /* paper edge vignette so the slide feels like a lit page, not a scan */
+      .page-light {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(ellipse at 50% 42%, rgba(255, 252, 240, 0) 58%, rgba(24, 19, 16, 0.34) 100%);
+        mix-blend-mode: multiply;
+      }
+
+      /* scene-scoped header chrome */
+      .kicker {
+        position: absolute;
+        top: 34px;
+        left: 46px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 22px;
+        font-family: Consolas, monospace;
+        font-size: 23px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: #2b2722;
+        background: #f6f1e2;
+        border: 2px solid #2b2722;
+        border-radius: 4px 10px 6px 12px;
+        box-shadow: 4px 5px 0 rgba(24, 19, 16, 0.55);
+        transform: rotate(-0.8deg);
+        z-index: 6;
+      }
+
+      .kicker .ink-dot {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #c24031;
+      }
+
+      .page-no {
+        position: absolute;
+        top: 34px;
+        right: 46px;
+        padding: 10px 20px;
+        font-family: Consolas, monospace;
+        font-size: 25px;
+        font-weight: 700;
+        color: #f6f1e2;
+        background: #2b2722;
+        border: 2px solid #f6f1e2;
+        border-radius: 12px 5px 11px 6px;
+        box-shadow: 4px 5px 0 rgba(24, 19, 16, 0.55);
+        transform: rotate(0.9deg);
+        z-index: 6;
+      }
+
+      /* red ink stamp for the climax scene */
+      .stamp {
+        position: absolute;
+        top: 580px;
+        right: 270px;
+        padding: 18px 34px;
+        font-family: Consolas, monospace;
+        font-size: 54px;
+        font-weight: 800;
+        letter-spacing: 4px;
+        color: #c24031;
+        border: 6px solid #c24031;
+        border-radius: 16px 22px 14px 24px;
+        background: rgba(248, 241, 223, 0.18);
+        box-shadow: inset 0 0 22px rgba(194, 64, 49, 0.25);
+        text-shadow: 0 0 1px #c24031;
+        transform: rotate(-9deg);
+        opacity: 0;
+        z-index: 7;
+      }
+
+      /* ------------------------------------------------------------------ */
+      /* Captions                                                            */
+      /* ------------------------------------------------------------------ */
+      .caption {
+        position: absolute;
+        left: 50%;
+        bottom: 56px;
+        transform: translateX(-50%);
+        max-width: 1460px;
+        padding: 20px 44px;
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 1.4;
+        text-align: center;
+        color: #2b2722;
+        background: #f8f1df;
+        border: 3px solid #2b2722;
+        border-radius: 16px 22px 13px 24px;
+        box-shadow: 6px 8px 0 rgba(24, 19, 16, 0.5);
+        z-index: 40;
+      }
+
+      .caption::before,
+      .caption::after {
+        content: "";
+        position: absolute;
+        top: -16px;
+        width: 92px;
+        height: 30px;
+        background: rgba(223, 184, 90, 0.78);
+        border: 1px solid rgba(43, 39, 34, 0.32);
+        transform: rotate(-4deg);
+      }
+
+      .caption::before {
+        left: 48px;
+      }
+
+      .caption::after {
+        right: 48px;
+        transform: rotate(5deg);
+      }
+
+      .caption .hl {
+        color: #c24031;
+      }
+
+      /* ------------------------------------------------------------------ */
+      /* Global overlays                                                     */
+      /* ------------------------------------------------------------------ */
+      .grain {
+        position: absolute;
+        inset: -60px;
+        pointer-events: none;
+        opacity: 0.2;
+        background-image:
+          radial-gradient(rgba(246, 241, 226, 0.16) 1px, transparent 1px),
+          radial-gradient(rgba(24, 19, 16, 0.2) 1px, transparent 1px);
+        background-size: 9px 9px, 13px 13px;
+        background-position: 0 0, 4px 6px;
+        z-index: 30;
+      }
+
+      .progress-rail {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 9px;
+        background: rgba(246, 241, 226, 0.14);
+        z-index: 45;
+      }
+
+      .progress-fill {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, #dfb85a, #c24031);
+        transform-origin: left;
+        transform: scaleX(0);
+      }
+
+      .fadeout {
+        position: absolute;
+        inset: 0;
+        background: #120e0b;
+        opacity: 0;
+        z-index: 60;
+      }
+
+      audio {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="76.5"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- ============================ SCENE 1 — HOOK ============================ -->
+      <section id="scene-01" class="clip scene" data-layout-allow-overflow data-start="0" data-duration="13.2" data-track-index="0" style="z-index: 10">
+        <div class="slide-wrap" data-layout-allow-overflow>
+          <img class="ken" src="assets/slides/slide-01.png" alt="Slide 01" />
+        </div>
+        <div class="page-light"></div>
+        <div class="kicker"><span class="ink-dot"></span>50 STARTUPS &middot; CRISP-DM</div>
+        <div class="page-no">01 / 06</div>
+      </section>
+
+      <!-- ============================ SCENE 2 — 問題 ============================ -->
+      <section id="scene-02" class="clip scene" data-layout-allow-overflow data-start="12.7" data-duration="11.8" data-track-index="1" style="z-index: 11">
+        <div class="slide-wrap" data-layout-allow-overflow>
+          <img class="ken" src="assets/slides/slide-02.png" alt="Slide 02" />
+        </div>
+        <div class="page-light"></div>
+        <div class="kicker"><span class="ink-dot"></span>THE BUSINESS GOAL</div>
+        <div class="page-no">02 / 06</div>
+      </section>
+
+      <!-- ============================ SCENE 3 — 兩條路 ========================== -->
+      <section id="scene-03" class="clip scene" data-layout-allow-overflow data-start="24.0" data-duration="13.3" data-track-index="0" style="z-index: 12">
+        <div class="slide-wrap" data-layout-allow-overflow>
+          <img class="ken" src="assets/slides/slide-05.png" alt="Slide 05" />
+        </div>
+        <div class="page-light"></div>
+        <div class="kicker"><span class="ink-dot"></span>TWO PATHS</div>
+        <div class="page-no">03 / 06</div>
+      </section>
+
+      <!-- ===================== SCENE 4 — 實驗（兩連拍） ========================= -->
+      <section id="scene-04" class="clip scene" data-layout-allow-overflow data-start="36.8" data-duration="10.8" data-track-index="1" style="z-index: 13">
+        <div class="slide-wrap shot-a" data-layout-allow-overflow>
+          <img class="ken" src="assets/slides/slide-06.png" alt="Slide 06" />
+        </div>
+        <div class="slide-wrap shot-b" data-layout-allow-overflow>
+          <img class="ken" src="assets/slides/slide-07.png" alt="Slide 07" />
+        </div>
+        <div class="page-light"></div>
+        <div class="kicker"><span class="ink-dot"></span>HUMAN &times; MACHINE</div>
+        <div class="page-no">04 / 06</div>
+      </section>
+
+      <!-- ====================== SCENE 5 — 收斂（高潮） ========================== -->
+      <section id="scene-05" class="clip scene" data-layout-allow-overflow data-start="47.1" data-duration="14.3" data-track-index="0" style="z-index: 14">
+        <div class="slide-wrap" data-layout-allow-overflow>
+          <img class="ken" src="assets/slides/slide-08.png" alt="Slide 08" />
+        </div>
+        <div class="page-light"></div>
+        <div class="kicker"><span class="ink-dot"></span>THE CONVERGENCE</div>
+        <div class="page-no">05 / 06</div>
+        <div class="stamp">R&amp;D&nbsp;&#10003;</div>
+      </section>
+
+      <!-- ===================== SCENE 6 — 結論（兩連拍） ========================= -->
+      <section id="scene-06" class="clip scene" data-layout-allow-overflow data-start="60.9" data-duration="15.6" data-track-index="1" style="z-index: 15">
+        <div class="slide-wrap shot-a" data-layout-allow-overflow>
+          <img class="ken" src="assets/slides/slide-10.png" alt="Slide 10" />
+        </div>
+        <div class="slide-wrap shot-b" data-layout-allow-overflow>
+          <img class="ken" src="assets/slides/slide-11.png" alt="Slide 11" />
+        </div>
+        <div class="page-light"></div>
+        <div class="kicker"><span class="ink-dot"></span>FINAL VERDICT</div>
+        <div class="page-no">06 / 06</div>
+      </section>
+
+      <!-- ============================== AUDIO ================================== -->
+      <audio id="voice-01" class="clip" src="assets/narration/seg-01.mp3" data-start="0.6" data-duration="11.832" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-02" class="clip" src="assets/narration/seg-02.mp3" data-start="13.4" data-duration="9.936" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-03" class="clip" src="assets/narration/seg-03.mp3" data-start="24.8" data-duration="11.856" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-04" class="clip" src="assets/narration/seg-04.mp3" data-start="37.4" data-duration="9.384" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-05" class="clip" src="assets/narration/seg-05.mp3" data-start="47.9" data-duration="12.816" data-track-index="12" data-volume="1"></audio>
+      <audio id="voice-06" class="clip" src="assets/narration/seg-06.mp3" data-start="61.7" data-duration="11.64" data-track-index="12" data-volume="1"></audio>
+
+      <!-- ============================= CAPTIONS ================================ -->
+      <div id="caption-01" class="clip caption" data-start="0.9" data-duration="11.9" data-track-index="20">
+        用 <span class="hl">CRISP-DM</span> 與機器學習，拆開新創獲利引擎
+      </div>
+      <div id="caption-02" class="clip caption" data-start="13.7" data-duration="10.0" data-track-index="20">
+        四個變數，一個問題：<span class="hl">哪根槓桿推動獲利？</span>
+      </div>
+      <div id="caption-03" class="clip caption" data-start="25.1" data-duration="11.9" data-track-index="20">
+        兩條路：<span class="hl">商業直覺</span> vs <span class="hl">演算法</span>
+      </div>
+      <div id="caption-04" class="clip caption" data-start="37.7" data-duration="9.4" data-track-index="20">
+        五組人類實驗 &times; 五種特徵選擇演算法
+      </div>
+      <div id="caption-05" class="clip caption" data-start="48.2" data-duration="12.8" data-track-index="20">
+        全部收斂：<span class="hl">R&amp;D Spend</span>，R&sup2; = 0.93
+      </div>
+      <div id="caption-06" class="clip caption" data-start="62.0" data-duration="11.9" data-track-index="20">
+        資料很小，洞察很大——<span class="hl">選對特徵，說對故事</span>
+      </div>
+
+      <!-- =========================== GLOBAL OVERLAYS =========================== -->
+      <div id="grain" class="clip grain" data-start="0" data-duration="76.5" data-track-index="30"></div>
+      <div id="progress" class="clip progress-rail" data-start="0" data-duration="76.5" data-track-index="45">
+        <div class="progress-fill"></div>
+      </div>
+      <div id="fade-final" class="clip fadeout" data-start="74.6" data-duration="1.9" data-track-index="60"></div>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        const TOTAL = 76.5;
+
+        /* ----------------------------------------------------------------
+         * Scene 1 — HOOK (0–13.2): camera lands on the title page
+         * entrance: slow settle from above-zoom; ken: gentle push-in
+         * ---------------------------------------------------------------- */
+        tl.fromTo("#scene-01 .slide-wrap", { scale: 1.14, opacity: 0, filter: "blur(14px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 1.05, ease: "power3.out" }, 0.12);
+        tl.fromTo("#scene-01 .ken", { scale: 1.02, xPercent: 0, yPercent: 0 }, { scale: 1.1, xPercent: -1.5, yPercent: -1, duration: 12.4, ease: "none" }, 0.8);
+        tl.fromTo("#scene-01 .kicker", { y: -42, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "back.out(1.6)" }, 0.7);
+        tl.fromTo("#scene-01 .page-no", { x: 46, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "sine.out" }, 0.95);
+
+        /* ----------------------------------------------------------------
+         * Scene 2 — 問題 (12.7–24.5): push-slide in from the right
+         * ken: pan left toward the machine
+         * ---------------------------------------------------------------- */
+        tl.fromTo("#scene-02 .slide-wrap", { clipPath: "inset(0 0 0 100%)", filter: "blur(12px)" }, { clipPath: "inset(0 0 0 0%)", filter: "blur(0px)", duration: 0.62, ease: "power2.out" }, 12.72);
+        tl.fromTo("#scene-02 .ken", { scale: 1.12, xPercent: 2.4 }, { scale: 1.07, xPercent: -2.4, duration: 11.2, ease: "none" }, 13.0);
+        tl.fromTo("#scene-02 .kicker", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 13.3);
+        tl.fromTo("#scene-02 .page-no", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 13.5);
+
+        /* ----------------------------------------------------------------
+         * Scene 3 — 兩條路 (24.0–37.3): rise from below, camera pulls BACK
+         * to reveal both paths (zoom-out — opposite of neighbours)
+         * ---------------------------------------------------------------- */
+        tl.fromTo("#scene-03 .slide-wrap", { y: 130, scale: 0.96, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out" }, 24.05);
+        tl.fromTo("#scene-03 .ken", { scale: 1.16, yPercent: 1.6 }, { scale: 1.04, yPercent: 0, duration: 12.4, ease: "none" }, 24.4);
+        tl.fromTo("#scene-03 .kicker", { y: -42, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "sine.out" }, 24.7);
+        tl.fromTo("#scene-03 .page-no", { rotation: 14, opacity: 0 }, { rotation: 0.9, opacity: 1, duration: 0.5, ease: "back.out(1.7)" }, 24.9);
+
+        /* ----------------------------------------------------------------
+         * Scene 4 — 實驗 two-shot (36.8–47.6): push from the LEFT,
+         * whip-pan to shot B at 42.2 (velocity-matched)
+         * ---------------------------------------------------------------- */
+        tl.fromTo("#scene-04 .shot-a", { x: -420, opacity: 0, filter: "blur(12px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 36.84);
+        tl.fromTo("#scene-04 .shot-a .ken", { scale: 1.05, xPercent: -2, yPercent: 1.4 }, { scale: 1.12, xPercent: 1.6, yPercent: -1.2, duration: 5.4, ease: "none" }, 37.0);
+        tl.fromTo("#scene-04 .kicker", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "power2.out" }, 37.3);
+        tl.fromTo("#scene-04 .page-no", { y: -36, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "sine.out" }, 37.5);
+
+        /* whip-pan cut: A exits accelerating left+blur, B enters decelerating */
+        tl.to("#scene-04 .shot-a", { x: -560, opacity: 0, filter: "blur(18px)", duration: 0.3, ease: "power3.in" }, 42.2);
+        tl.set("#scene-04 .shot-a", { visibility: "hidden" }, 42.52);
+        tl.fromTo("#scene-04 .shot-b", { x: 560, opacity: 0, filter: "blur(18px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.34, ease: "power3.out" }, 42.42);
+        tl.fromTo("#scene-04 .shot-b .ken", { scale: 1.12, xPercent: 2, yPercent: -1.2 }, { scale: 1.05, xPercent: -1.6, yPercent: 1.2, duration: 5.0, ease: "none" }, 42.5);
+
+        /* ----------------------------------------------------------------
+         * Scene 5 — 收斂 PEAK (47.1–61.4): zoom-through entrance,
+         * camera pushes hard toward the trophy; red stamp slams at 53.6
+         * ---------------------------------------------------------------- */
+        tl.fromTo("#scene-05 .slide-wrap", { scale: 0.78, opacity: 0, filter: "blur(18px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.72, ease: "expo.out" }, 47.14);
+        tl.fromTo("#scene-05 .ken", { scale: 1.04, yPercent: 1.2 }, { scale: 1.17, yPercent: -2.6, duration: 13.4, ease: "none" }, 47.6);
+        tl.fromTo("#scene-05 .kicker", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.8)" }, 47.9);
+        tl.fromTo("#scene-05 .page-no", { x: 46, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "power2.out" }, 48.1);
+        /* stamp SLAM — lands right after「研發支出」is spoken */
+        tl.fromTo("#scene-05 .stamp", { scale: 2.7, opacity: 0, rotation: -16 }, { scale: 1, opacity: 1, rotation: -9, duration: 0.34, ease: "power4.in" }, 53.6);
+        tl.to("#scene-05 .stamp", { scale: 1.06, duration: 0.16, ease: "sine.out" }, 53.96);
+        tl.to("#scene-05 .stamp", { scale: 1, duration: 0.2, ease: "sine.inOut" }, 54.12);
+
+        /* ----------------------------------------------------------------
+         * Scene 6 — 結論 two-shot (60.9–76.5): gentle blur drift in,
+         * soft crossfade to the closing board at 66.9, then fade out
+         * ---------------------------------------------------------------- */
+        tl.fromTo("#scene-06 .shot-a", { opacity: 0, scale: 1.05, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.85, ease: "sine.out" }, 60.94);
+        tl.fromTo("#scene-06 .shot-a .ken", { scale: 1.04, xPercent: -1.4 }, { scale: 1.1, xPercent: 1.4, duration: 6.4, ease: "none" }, 61.1);
+        tl.fromTo("#scene-06 .kicker", { y: -42, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 61.4);
+        tl.fromTo("#scene-06 .page-no", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 61.6);
+        /* soft dissolve to closing board (final scene may fade) */
+        tl.to("#scene-06 .shot-a", { opacity: 0, filter: "blur(10px)", duration: 0.65, ease: "sine.inOut" }, 66.9);
+        tl.set("#scene-06 .shot-a", { visibility: "hidden" }, 67.6);
+        tl.fromTo("#scene-06 .shot-b", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "sine.out" }, 67.0);
+        tl.fromTo("#scene-06 .shot-b .ken", { scale: 1.12, yPercent: -1 }, { scale: 1.05, yPercent: 0.8, duration: 9.0, ease: "none" }, 67.2);
+
+        /* ----------------------------------------------------------------
+         * Captions: consistent pop-in, quick fade-out, hard kill
+         * ---------------------------------------------------------------- */
+        const CAPTIONS = [
+          { id: "#caption-01", start: 0.9, end: 12.8 },
+          { id: "#caption-02", start: 13.7, end: 23.7 },
+          { id: "#caption-03", start: 25.1, end: 37.0 },
+          { id: "#caption-04", start: 37.7, end: 47.1 },
+          { id: "#caption-05", start: 48.2, end: 61.0 },
+          { id: "#caption-06", start: 62.0, end: 73.9 },
+        ];
+        CAPTIONS.forEach((c) => {
+          tl.fromTo(c.id, { y: 30, opacity: 0, scale: 0.97 }, { y: 0, opacity: 1, scale: 1, duration: 0.34, ease: "power3.out" }, c.start);
+          tl.to(c.id, { opacity: 0, y: 12, duration: 0.18, ease: "power2.in" }, c.end - 0.18);
+          tl.set(c.id, { opacity: 0, visibility: "hidden" }, c.end);
+        });
+
+        /* ----------------------------------------------------------------
+         * Global ambient layers
+         * ---------------------------------------------------------------- */
+        tl.fromTo(".progress-fill", { scaleX: 0 }, { scaleX: 1, duration: TOTAL, ease: "none" }, 0);
+        tl.fromTo("#grain", { x: 0, y: 0 }, { x: 26, y: -18, duration: TOTAL, ease: "none" }, 0);
+        tl.fromTo("#fade-final", { opacity: 0 }, { opacity: 1, duration: 1.6, ease: "power1.inOut" }, 74.7);
+
+        /* sentinel: hold the timeline to full duration */
+        tl.set("#grain", {}, TOTAL);
+
+        window.__timelines["main"] = tl;
+      </script>
+    </div>
+  </body>
+</html>
