@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Decoding Startup Profit — 教學投影片</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+    background: linear-gradient(140deg, #201914 0%, #181310 55%, #120e0b 100%);
+    color: #f6f1e2;
+    min-height: 100vh;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 2px solid rgba(246, 241, 226, 0.15);
+  }
+  header h1 { font-size: 20px; letter-spacing: 1px; }
+  header .badge {
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    padding: 4px 12px;
+    background: #f6f1e2;
+    color: #2b2722;
+    border-radius: 4px 10px 6px 12px;
+    transform: rotate(-1deg);
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 220px 1fr 360px;
+    gap: 18px;
+    padding: 18px 28px;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+  /* ---------------- TOC ---------------- */
+  nav#toc { font-size: 14px; }
+  nav#toc button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 9px 12px;
+    margin-bottom: 6px;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: #f6f1e2;
+    background: rgba(246, 241, 226, 0.07);
+    border: 1px solid rgba(246, 241, 226, 0.18);
+    border-radius: 8px 4px 9px 5px;
+    cursor: pointer;
+  }
+  nav#toc button:hover { background: rgba(223, 184, 90, 0.22); }
+  nav#toc button.active {
+    background: #dfb85a;
+    color: #2b2722;
+    font-weight: 700;
+    border-color: #dfb85a;
+  }
+  /* ---------------- Stage ---------------- */
+  .stage { display: flex; flex-direction: column; gap: 12px; }
+  .frame {
+    position: relative;
+    background: #f8f1df;
+    border: 3px solid #2b2722;
+    border-radius: 10px;
+    box-shadow: 8px 10px 0 rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+  }
+  .frame img { display: block; width: 100%; height: auto; }
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .controls button {
+    padding: 10px 26px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: #2b2722;
+    background: #f6f1e2;
+    border: 2px solid #2b2722;
+    border-radius: 6px 12px 7px 11px;
+    box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+  }
+  .controls button:hover { background: #dfb85a; }
+  .controls button:disabled { opacity: 0.35; cursor: default; }
+  .controls .counter {
+    font-family: Consolas, monospace;
+    font-size: 16px;
+    color: #9ed0cf;
+  }
+  .progress { height: 7px; background: rgba(246, 241, 226, 0.14); border-radius: 99px; }
+  .progress > div {
+    height: 100%;
+    background: linear-gradient(90deg, #dfb85a, #c24031);
+    border-radius: 99px;
+    transition: width 0.25s ease;
+  }
+  /* ---------------- Notes ---------------- */
+  aside.notes {
+    background: #f8f1df;
+    color: #2b2722;
+    border: 3px solid #2b2722;
+    border-radius: 14px 8px 15px 9px;
+    box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.45);
+    padding: 22px 24px;
+    align-self: start;
+    position: sticky;
+    top: 18px;
+  }
+  aside.notes h2 {
+    font-size: 19px;
+    margin-bottom: 4px;
+    color: #c24031;
+  }
+  aside.notes h3 {
+    font-family: Consolas, monospace;
+    font-size: 12.5px;
+    font-weight: 400;
+    color: #5d564c;
+    margin-bottom: 14px;
+  }
+  aside.notes ul { padding-left: 20px; }
+  aside.notes li { font-size: 14.5px; line-height: 1.75; margin-bottom: 9px; }
+  aside.notes code {
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    background: rgba(42, 166, 162, 0.16);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .hint {
+    text-align: center;
+    font-size: 12.5px;
+    color: rgba(246, 241, 226, 0.55);
+    padding-bottom: 16px;
+  }
+  @media (max-width: 1100px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.notes { position: static; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Decoding Startup Profit — 50 Startups 回歸分析教學</h1>
+  <span class="badge">CRISP-DM &times; Scikit-Learn</span>
+</header>
+
+<div class="layout">
+  <nav id="toc"></nav>
+  <main class="stage">
+    <div class="frame"><img id="slide-img" src="" alt="slide" /></div>
+    <div class="progress"><div id="progress-fill" style="width: 0%"></div></div>
+    <div class="controls">
+      <button id="prev">&#8592; 上一頁</button>
+      <span class="counter" id="counter">01 / 11</span>
+      <button id="next">下一頁 &#8594;</button>
+    </div>
+  </main>
+  <aside class="notes">
+    <h2 id="note-title"></h2>
+    <h3 id="note-kicker"></h3>
+    <ul id="note-list"></ul>
+  </aside>
+</div>
+<p class="hint">鍵盤 ← → 或數字鍵 1–9 可換頁 · 投影片來源：sources/Decoding_Startup_Profit.pptx</p>
+
+<script>
+const IMG_DIR = "../startup-presentation-video-pptx/assets/slides/";
+const SLIDES = [
+  {
+    title: "預測 50 家新創的獲利",
+    kicker: "SLIDE 01 · TITLE",
+    notes: [
+      "本教學使用 Kaggle <code>50 Startups</code> 資料集：50 家公司的研發、行政、行銷支出與所在州，目標是預測 <code>Profit</code>。",
+      "方法論：CRISP-DM 流程 &times; Scikit-Learn 線性回歸。",
+      "核心思想：讓「商業洞察」與「演算法數學」互相對照。"
+    ]
+  },
+  {
+    title: "商業目標：解碼獲利引擎",
+    kicker: "SLIDE 02 · BUSINESS UNDERSTANDING",
+    notes: [
+      "我們把公司想成一台機器：投入研發、行銷、行政三種資源，產出獲利。",
+      "核心問題：<strong>哪一根槓桿真正推動產出？</strong>",
+      "這是監督式學習中的回歸問題——目標變數 Profit 是連續數值。"
+    ]
+  },
+  {
+    title: "結構藍圖：CRISP-DM",
+    kicker: "SLIDE 03 · METHODOLOGY",
+    notes: [
+      "六步驟：商業理解 → 資料理解 → 資料準備 → 建模 → 評估 → 結論部署。",
+      "本專案特色：把「人類商業邏輯」和「機器演算法」當成兩條平行路徑來跑。",
+      "對應程式：<code>src/modeling.py</code> 的 Step 1–6。"
+    ]
+  },
+  {
+    title: "組裝 Scikit-Learn 工具箱",
+    kicker: "SLIDE 04 · DATA PREPARATION",
+    notes: [
+      "<code>Pipeline</code> + <code>ColumnTransformer</code> 把前處理和模型組成一條流水線。",
+      "State 用 <code>OneHotEncoder(drop='first')</code> 編碼——drop first 避免虛擬變數陷阱（完全共線性）。",
+      "<code>train_test_split(test_size=0.2, random_state=42)</code>：40 筆訓練、10 筆測試。"
+    ]
+  },
+  {
+    title: "通往真相的兩條路",
+    kicker: "SLIDE 05 · TWO PATHS",
+    notes: [
+      "人類路徑：用商業邏輯決定特徵的優先順序（研發 &gt; 行銷 &gt; 行政 &gt; 州）。",
+      "機器路徑：讓特徵選擇演算法自己從數據中挑。",
+      "關鍵問題：<strong>兩條路會不會收斂到同一個答案？</strong> 如果會，結論就非常可信。"
+    ]
+  },
+  {
+    title: "路徑一：人類引導的商業實驗",
+    kicker: "SLIDE 06 · HUMAN PATH",
+    notes: [
+      "五組實驗：Model A（只用 R&amp;D）→ B（+行銷）→ C（+行政）→ D（全特徵含州）→ E（只用州）。",
+      "每組都檢驗一個商業假設，例如 Model E 檢驗「光靠地點能否預測獲利」。",
+      "評估指標：RMSE、MAE、R&sup2;、<strong>Adjusted R&sup2;</strong>（懲罰多餘特徵）。"
+    ]
+  },
+  {
+    title: "路徑二：演算法特徵選擇",
+    kicker: "SLIDE 07 · MACHINE PATH",
+    notes: [
+      "Wrapper 類：Sequential Feature Selection、RFE——反覆試誤淘汰。",
+      "Embedded 類：Lasso（L1 懲罰）、Random Forest 重要度——模型內建篩選。",
+      "Filter 類：SelectKBest（F 統計量）——純統計篩選。",
+      "五種演算法，互相獨立，各自給出特徵排序。"
+    ]
+  },
+  {
+    title: "收斂：兩條路指向同一個答案",
+    kicker: "SLIDE 08 · THE CONVERGENCE",
+    notes: [
+      "人類實驗的最佳模型：<strong>Model A（只用 R&amp;D Spend）</strong>。",
+      "五種演算法的單特徵首選：全部是 <strong>R&amp;D Spend</strong>。",
+      "計分板：RMSE 7,714、R&sup2; 0.9265、Adjusted R&sup2; 0.9173。",
+      "整合比較圖：<code>outputs/figures/feature_selection_integrated_comparison.png</code>。"
+    ]
+  },
+  {
+    title: "視覺化數學：複雜度的代價",
+    kicker: "SLIDE 09 · COST OF COMPLEXITY",
+    notes: [
+      "圖表顯示：特徵越多，測試集 RMSE 反而上升、Adjusted R&sup2; 下降。",
+      "原因：50 筆小樣本下，多餘特徵帶進雜訊，模型過擬合。",
+      "教訓：<strong>更多特徵 &ne; 更好模型</strong>。"
+    ]
+  },
+  {
+    title: "特徵天平：解讀每根槓桿",
+    kicker: "SLIDE 10 · INTERPRETATION",
+    notes: [
+      "R&amp;D Spend：核心獲利引擎，係數約 0.85（每多投 1 元研發，預測獲利 +0.85 元）。",
+      "Marketing Spend：有輔助價值，但在 R&amp;D 之後增益有限（p = 0.12）。",
+      "Administration：弱且不穩定（p = 0.61），偏向營運成本而非獲利來源。",
+      "State：樣本太小（每州 16–17 筆），不要過度解讀。"
+    ]
+  },
+  {
+    title: "總結與最佳實務",
+    kicker: "SLIDE 11 · FINAL ASSESSMENT",
+    notes: [
+      "「資料很小，商業洞察很大」——小資料集更需要領域知識把關。",
+      "模型選擇要同時看：Adjusted R&sup2;、RMSE、MAE、係數合理性、商業邏輯。",
+      "最終結論：<strong>選擇能說對故事的特徵，而不是堆疊特徵。</strong>"
+    ]
+  }
+];
+
+let current = 0;
+const tocEl = document.getElementById("toc");
+const imgEl = document.getElementById("slide-img");
+const counterEl = document.getElementById("counter");
+const fillEl = document.getElementById("progress-fill");
+const titleEl = document.getElementById("note-title");
+const kickerEl = document.getElementById("note-kicker");
+const listEl = document.getElementById("note-list");
+
+SLIDES.forEach((s, i) => {
+  const b = document.createElement("button");
+  b.textContent = String(i + 1).padStart(2, "0") + " · " + s.title;
+  b.addEventListener("click", () => show(i));
+  tocEl.appendChild(b);
+});
+
+function show(i) {
+  current = Math.max(0, Math.min(SLIDES.length - 1, i));
+  const s = SLIDES[current];
+  const n = String(current + 1).padStart(2, "0");
+  imgEl.src = IMG_DIR + "slide-" + n + ".png";
+  counterEl.textContent = n + " / " + String(SLIDES.length).padStart(2, "0");
+  fillEl.style.width = ((current + 1) / SLIDES.length) * 100 + "%";
+  titleEl.textContent = s.title;
+  kickerEl.textContent = s.kicker;
+  listEl.innerHTML = s.notes.map((t) => "<li>" + t + "</li>").join("");
+  [...tocEl.children].forEach((b, j) => b.classList.toggle("active", j === current));
+  document.getElementById("prev").disabled = current === 0;
+  document.getElementById("next").disabled = current === SLIDES.length - 1;
+}
+
+document.getElementById("prev").addEventListener("click", () => show(current - 1));
+document.getElementById("next").addEventListener("click", () => show(current + 1));
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft") show(current - 1);
+  if (e.key === "ArrowRight") show(current + 1);
+  if (e.key >= "1" && e.key <= "9") show(parseInt(e.key, 10) - 1);
+});
+
+show(0);
+</script>
+</body>
+</html>

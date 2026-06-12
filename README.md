@@ -29,6 +29,9 @@ The `sources/` folder contains the original dataset and should not be deleted.
 | File or Folder | Description |
 |---|---|
 | `src/modeling.py` | Main executable CRISP-DM analysis script |
+| `src/compare_feature_selections.py` | Integrated comparison of the four feature-selection analyses |
+| `streamlit_app.py` | Interactive Streamlit app (tutorial slides, data exploration, model comparison, profit predictor) |
+| `tutorial/index.html` | Standalone tutorial webpage for the presentation deck |
 | `sources/50_Startups.csv` | Original dataset |
 | `outputs/figures/` | Generated charts and the workflow image |
 | `outputs/metrics/` | Generated CSV metric tables |
@@ -73,6 +76,15 @@ The script loads the dataset (URL first, local `sources/50_Startups.csv` as fall
 performs CRISP-DM analysis, trains the regression models, compares feature sets,
 runs the feature selection algorithms, and saves all results.
 
+Interactive app:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+Tutorial webpage: open `tutorial/index.html` in a browser (slide images are loaded
+from `startup-presentation-video-pptx/assets/slides/`, so keep the repo layout intact).
+
 ## Outputs
 
 Generated outputs are saved under:
@@ -84,6 +96,7 @@ Key result images:
 
 | Output | File |
 |---|---|
+| **Integrated feature-selection comparison (all four analyses)** | `outputs/figures/feature_selection_integrated_comparison.png` |
 | Feature selection all-in-one summary | `outputs/figures/feature_selection_performance_allinone_summary.png` |
 | Business-guided feature selection | `outputs/figures/business_guided_feature_selection_summary.png` |
 | Marketing vs Administration comparison | `outputs/figures/marketing_vs_administration_comparison.png` |

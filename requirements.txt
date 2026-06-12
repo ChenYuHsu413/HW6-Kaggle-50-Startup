@@ -8,6 +8,9 @@ matplotlib
 scipy
 statsmodels
 
+# Interactive app (streamlit run streamlit_app.py)
+streamlit
+
 # Optional tooling
 seaborn
 jupyter
