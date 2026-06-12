@@ -1,5 +1,17 @@
 # Kaggle 50 Startups Linear Regression Analysis
 
+## Demo
+
+| Demo | URL |
+|---|---|
+| 📖 Tutorial webpage (slide deck + notes) | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/tutorial/> |
+| 🎬 Presentation video V2 (76s dynamic cut) | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/startup-presentation-video-v2/renders/startup-profit-presentation-v2.mp4> |
+| 🎬 Presentation video V1 (full version) | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/startup-presentation-video-pptx/renders/startup-profit-presentation.mp4> |
+| 🚀 Interactive Streamlit app | Run locally with `streamlit run streamlit_app.py`, or deploy this repo on [Streamlit Community Cloud](https://share.streamlit.io) |
+
+> The GitHub Pages links require Pages to be enabled once:
+> repo **Settings → Pages → Deploy from a branch → `main` / `(root)`**.
+
 ## Project Overview
 
 This project analyzes the Kaggle 50 Startups dataset using Multiple Linear Regression.
