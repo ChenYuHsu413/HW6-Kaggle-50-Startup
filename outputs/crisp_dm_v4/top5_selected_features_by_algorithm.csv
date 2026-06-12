@@ -1,0 +1,11 @@
+Algorithm,Type,Number of Features,Selected Features,RMSE,R-squared,Adjusted R2,MAE,MSE
+SelectKBest_f_regression,Filter,5,"[R&D Spend, Marketing Spend, State_California, State_New York, State_Florida]",8254.686589386509,0.9158551276280746,0.810674037163168,6454.510107277036,68139850.68899748
+SelectKBest_mutual_info_regression,Filter,5,"[R&D Spend, Marketing Spend, Administration, State_California, State_Florida]",9055.957323465758,0.8987266414327006,0.7721349432235765,6961.477813256676,82010363.0444331
+RidgeCV_Coefficients,Embedded,5,"[R&D Spend, Marketing Spend, Administration, State_Florida, State_California]",9055.957323465758,0.8987266414327006,0.7721349432235765,6961.477813256676,82010363.0444331
+GradientBoosting_Feature_Importance,Embedded,5,"[R&D Spend, Marketing Spend, Administration, State_New York, State_California]",9055.957323483253,0.8987266414323093,0.7721349432226959,6961.477813266986,82010363.04474998
+Sequential_Forward_Selection,Wrapper,5,"[R&D Spend, Administration, State_Florida, Marketing Spend, State_California]",9055.9573234658,0.8987266414326996,0.7721349432235742,6961.477813256742,82010363.04443386
+Sequential_Backward_Selection,Wrapper,5,"[R&D Spend, State_Florida, State_New York, State_California, Administration]",9316.536408848568,0.8928146452938479,0.7588329519111578,7436.615539448025,86797850.65740095
+LassoCV,Embedded,5,"[R&D Spend, Marketing Spend, Administration, State_California, State_Florida]",9055.957323465758,0.8987266414327006,0.7721349432235765,6961.477813256676,82010363.0444331
+ElasticNetCV,Embedded,5,"[R&D Spend, Marketing Spend, Administration, State_California, State_Florida]",9055.957323465758,0.8987266414327006,0.7721349432235765,6961.477813256676,82010363.0444331
+RandomForest_Feature_Importance,Embedded,5,"[R&D Spend, Marketing Spend, Administration, State_California, State_New York]",9055.957323483253,0.8987266414323093,0.7721349432226959,6961.477813266986,82010363.04474998
+Permutation_Importance,Model Inspection,5,"[R&D Spend, Marketing Spend, Administration, State_Florida, State_New York]",9055.957323458471,0.8987266414328636,0.7721349432239432,6961.477813252384,82010363.04430112

@@ -8,7 +8,7 @@
 | 🎬 Presentation video V2 (76s dynamic cut) | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/startup-presentation-video-v2/renders/startup-profit-presentation-v2.mp4> |
 | 🎬 Presentation video V1 (full version) | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/startup-presentation-video-pptx/renders/startup-profit-presentation.mp4> |
 | 🚀 Interactive Streamlit app | <https://chenyu-hw6-kaggle-50-startup.streamlit.app/> |
-| 📖 技術白皮書 | <<https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/sources/HW6_50_Startups_Technical_Whitepaper.pdf> |
+| 📖 技術白皮書 | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/sources/HW6_50_Startups_Technical_Whitepaper.pdf> |
 
 > The GitHub Pages links require Pages to be enabled once:
 > repo **Settings → Pages → Deploy from a branch → `main` / `(root)`**.
@@ -43,6 +43,7 @@ The `sources/` folder contains the original dataset and should not be deleted.
 |---|---|
 | `src/modeling.py` | Main executable CRISP-DM analysis script |
 | `src/compare_feature_selections.py` | Integrated comparison of the four feature-selection analyses |
+| `50_startups_crisp_dm_v4_top5_feature_selection_10_visual.py` | v4 CRISP-DM feature-selection experiment with 10 algorithms and top-k visual summary |
 | `streamlit_app.py` | Interactive Streamlit app (tutorial slides, data exploration, model comparison, profit predictor) |
 | `tutorial/index.html` | Standalone tutorial webpage for the presentation deck |
 | `sources/50_Startups.csv` | Original dataset |
@@ -75,6 +76,8 @@ The project includes experiments on:
 - Comparing model performance using RMSE, MAE, R², and Adjusted R²
 - Five feature selection algorithms: Sequential Feature Selection, RFE, Lasso,
   SelectKBest, and Random Forest Feature Importance
+- v4 feature-selection upgrade: 10 algorithms, 6 model-ready encoded features,
+  top-1 to top-6 comparison, and one integrated RMSE/R-squared/table figure
 
 ## How to Run
 
@@ -88,6 +91,17 @@ python src/modeling.py
 The script loads the dataset (URL first, local `sources/50_Startups.csv` as fallback),
 performs CRISP-DM analysis, trains the regression models, compares feature sets,
 runs the feature selection algorithms, and saves all results.
+
+Run the v4 feature-selection experiment:
+
+```bash
+python 50_startups_crisp_dm_v4_top5_feature_selection_10_visual.py
+```
+
+The v4 script keeps CRISP-DM, Linear Regression, Pipeline, ColumnTransformer,
+and OneHotEncoder. It keeps all 3 State dummy variables visible for comparison,
+evaluates 10 feature-selection algorithms, compares top-k feature subsets from
+k=1 to k=6, and saves report-ready CSV/PNG outputs.
 
 Interactive app:
 
@@ -104,11 +118,15 @@ Generated outputs are saved under:
 
 - `outputs/figures/` — PNG charts
 - `outputs/metrics/` — CSV metric tables
+- `outputs/crisp_dm_v4/` - v4 CSV metric tables
+- `plots/crisp_dm_v4/` - v4 PNG charts
 
 Key result images:
 
 | Output | File |
 |---|---|
+| **v4 all-in-one 10-algorithm top-k summary** | `plots/crisp_dm_v4/feature_selection_performance_allinone_summary.png` |
+| v4 top-5 selected features by algorithm | `plots/crisp_dm_v4/best_selected_features_by_algorithm.png` |
 | **Integrated feature-selection comparison (all four analyses)** | `outputs/figures/feature_selection_integrated_comparison.png` |
 | Feature selection all-in-one summary | `outputs/figures/feature_selection_performance_allinone_summary.png` |
 | Business-guided feature selection | `outputs/figures/business_guided_feature_selection_summary.png` |

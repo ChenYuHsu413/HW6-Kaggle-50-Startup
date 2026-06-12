@@ -1,0 +1,7 @@
+Feature,Times Ranked Top 1,Times Selected in Top 3,Times Selected in Top 5,Average Rank
+R&D Spend,10,10,10,1.0
+Marketing Spend,0,8,9,2.6
+Administration,0,8,9,3.4
+State_California,0,1,9,4.4
+State_Florida,0,2,8,4.5
+State_New York,0,1,5,5.1

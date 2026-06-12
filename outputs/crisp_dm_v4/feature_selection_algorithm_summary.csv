@@ -1,0 +1,11 @@
+Algorithm,Type,Top 5 Selected Features,Best k,Best Feature Set,Best RMSE,Best R2,Best Adjusted R2,MAE
+SelectKBest_f_regression,Filter,"[R&D Spend, Marketing Spend, State_California, State_New York, State_Florida]",1,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399
+SelectKBest_mutual_info_regression,Filter,"[R&D Spend, Marketing Spend, Administration, State_California, State_Florida]",1,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399
+RidgeCV_Coefficients,Embedded,"[R&D Spend, Marketing Spend, Administration, State_Florida, State_California]",1,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399
+GradientBoosting_Feature_Importance,Embedded,"[R&D Spend, Marketing Spend, Administration, State_New York, State_California]",1,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399
+Sequential_Forward_Selection,Wrapper,"[R&D Spend, Administration, State_Florida, Marketing Spend, State_California]",1,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399
+Sequential_Backward_Selection,Wrapper,"[R&D Spend, State_Florida, State_New York, State_California, Administration]",1,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399
+LassoCV,Embedded,"[R&D Spend, Marketing Spend, Administration, State_California, State_Florida]",1,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399
+ElasticNetCV,Embedded,"[R&D Spend, Marketing Spend, Administration, State_California, State_Florida]",1,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399
+RandomForest_Feature_Importance,Embedded,"[R&D Spend, Marketing Spend, Administration, State_California, State_New York]",1,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399
+Permutation_Importance,Model Inspection,"[R&D Spend, Marketing Spend, Administration, State_Florida, State_New York]",1,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399

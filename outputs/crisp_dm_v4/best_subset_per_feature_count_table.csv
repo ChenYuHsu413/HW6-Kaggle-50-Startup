@@ -1,0 +1,7 @@
+Number of Features,Algorithm,Selected Features,RMSE,R-squared,Adjusted R2,MAE
+1,SelectKBest_f_regression,[R&D Spend],7714.334890830185,0.9265108109341951,0.9173246623009694,6077.363300620399
+2,Sequential_Backward_Selection,"[R&D Spend, State_Florida]",7917.828982913801,0.9225825766403365,0.9004633128232897,6290.459604846294
+3,Sequential_Backward_Selection,"[R&D Spend, State_Florida, State_New York]",7946.372243720326,0.922023400960792,0.8830351014411881,6296.783546062512
+4,Sequential_Backward_Selection,"[R&D Spend, State_Florida, State_New York, State_California]",7946.372243720089,0.9220234009607967,0.8596421217294341,6296.783546060774
+5,SelectKBest_f_regression,"[R&D Spend, Marketing Spend, State_California, State_New York, State_Florida]",8254.686589386509,0.9158551276280746,0.810674037163168,6454.510107277036
+6,SelectKBest_f_regression,"[R&D Spend, Marketing Spend, State_California, State_New York, State_Florida, Administration]",9055.95732345434,0.898726641432956,0.696179924298868,6961.477813249903
