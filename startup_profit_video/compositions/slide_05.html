@@ -1,0 +1,45 @@
+<template id="slide_05-template">
+  <div data-composition-id="slide_05" data-width="2867" data-height="1600" class="slide-container">
+    
+    <img class="bg-layer" src="../output/slide_05/background.png" />
+    <img id="layer_01" class="layer" src="../output/slide_05/layer_01.png" style="position: absolute; left: 56px; top: 0px; width: 2713px; height: 1335px; z-index: 1;" />
+    <img id="layer_02" class="layer" src="../output/slide_05/layer_02.png" style="position: absolute; left: 360px; top: 795px; width: 321px; height: 136px; z-index: 2;" />
+    <img id="layer_03" class="layer" src="../output/slide_05/layer_03.png" style="position: absolute; left: 397px; top: 1055px; width: 309px; height: 266px; z-index: 3;" />
+    <img id="layer_04" class="layer" src="../output/slide_05/layer_04.png" style="position: absolute; left: 185px; top: 1382px; width: 2513px; height: 143px; z-index: 4;" />
+    <img id="layer_05" class="layer" src="../output/slide_05/layer_05.png" style="position: absolute; left: 2587px; top: 1534px; width: 280px; height: 66px; z-index: 5;" />
+
+    <style>
+      .slide-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .bg-layer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+      .layer {
+        transform-origin: center;
+      }
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      
+      tl.from("#layer_01", { y: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.20);
+      tl.from("#layer_02", { x: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.45);
+      tl.from("#layer_03", { x: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.70);
+      tl.from("#layer_04", { opacity: 0, duration: 0.7, ease: "power2.out" }, 0.95);
+      tl.from("#layer_05", { x: 60, opacity: 0, duration: 0.7, ease: "power3.out" }, 1.20);
+      
+      window.__timelines["slide_05"] = tl;
+    </script>
+  </div>
+</template>

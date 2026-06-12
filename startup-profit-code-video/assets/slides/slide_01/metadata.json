@@ -1,0 +1,52 @@
+{
+  "slide": 1,
+  "width": 2868,
+  "height": 1600,
+  "background": "background.png",
+  "elements": [
+    {
+      "index": 1,
+      "x": 0,
+      "y": 8,
+      "width": 1264,
+      "height": 643,
+      "area": 812752,
+      "animation": "slide-down",
+      "z_index": 3,
+      "image": "element_01.png"
+    },
+    {
+      "index": 2,
+      "x": 42,
+      "y": 14,
+      "width": 2826,
+      "height": 1131,
+      "area": 3196206,
+      "animation": "scale-fade",
+      "z_index": 4,
+      "image": "element_02.png"
+    },
+    {
+      "index": 3,
+      "x": 2,
+      "y": 579,
+      "width": 2866,
+      "height": 1021,
+      "area": 2926186,
+      "animation": "scale-fade",
+      "z_index": 5,
+      "image": "element_03.png"
+    },
+    {
+      "index": 4,
+      "x": 1015,
+      "y": 952,
+      "width": 169,
+      "height": 91,
+      "area": 15379,
+      "animation": "scale-fade",
+      "z_index": 6,
+      "image": "element_04.png"
+    }
+  ]
+}

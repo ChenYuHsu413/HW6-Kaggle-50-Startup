@@ -1,0 +1,125 @@
+date: "2026-06-12"
+repo: "HW6-Kaggle-50-Startup"
+branch: "main"
+remote: "origin/main"
+current_status:
+  synced_with_remote: true
+  latest_commit: "a559694 Add v4 feature selection experiment"
+  working_tree: "clean"
+  note: "Git still warns about C:/Users/admin/.config/git/ignore permission, but repo sync is OK."
+
+today_commits:
+  - hash: "4e3097e"
+    summary: "Restructured project into src/ and outputs layout; cleaned artifacts."
+  - hash: "5340f61"
+    summary: "Removed old .agents video-tooling skill files."
+  - hash: "79ddf1d"
+    summary: "Restored .agents HyperFrames skills for resumed video work."
+  - hash: "e109489"
+    summary: "Added V2 presentation video project and 76.5s MP4 render."
+  - hash: "d32d724"
+    summary: "Added integrated feature-selection comparison, tutorial webpage, Streamlit app, and whitepaper PDF."
+  - hash: "bb36a76"
+    summary: "Added GitHub Pages demo links to README."
+  - hash: "cfa49bd"
+    summary: "Added local project log and .claude settings file."
+  - hash: "4fd5864"
+    summary: "Merged remote README updates into local main."
+  - hash: "a559694"
+    summary: "Added v4 feature-selection experiment with 10 algorithms, CSV tables, and PNG plots."
+
+v4_work_completed:
+  script:
+    path: "50_startups_crisp_dm_v4_top5_feature_selection_10_visual.py"
+    purpose: "CRISP-DM v4 feature-selection experiment for Kaggle 50 Startups."
+  kept_requirements:
+    - "CRISP-DM workflow"
+    - "LinearRegression"
+    - "Pipeline"
+    - "ColumnTransformer"
+    - "OneHotEncoder(drop=None)"
+    - "6 model-ready candidate features after full State encoding"
+  candidate_features:
+    - "R&D Spend"
+    - "Marketing Spend"
+    - "Administration"
+    - "State_California"
+    - "State_Florida"
+    - "State_New York"
+  final_algorithms:
+    - "SelectKBest_f_regression"
+    - "SelectKBest_mutual_info_regression"
+    - "RidgeCV_Coefficients"
+    - "GradientBoosting_Feature_Importance"
+    - "Sequential_Forward_Selection"
+    - "Sequential_Backward_Selection"
+    - "LassoCV"
+    - "ElasticNetCV"
+    - "RandomForest_Feature_Importance"
+    - "Permutation_Importance"
+  removed_algorithms:
+    - "RFE_LinearRegression"
+    - "RFECV_LinearRegression"
+  reason_removed: "Their results were too divergent and compressed the plot scale, making other algorithms hard to read."
+
+v4_outputs:
+  csv:
+    - "outputs/crisp_dm_v4/feature_selection_algorithm_summary.csv"
+    - "outputs/crisp_dm_v4/top_k_performance_table.csv"
+    - "outputs/crisp_dm_v4/feature_ranking_frequency_table.csv"
+    - "outputs/crisp_dm_v4/best_subset_per_feature_count_table.csv"
+    - "outputs/crisp_dm_v4/top5_selected_features_by_algorithm.csv"
+  plots:
+    - "plots/crisp_dm_v4/feature_selection_performance_allinone_summary.png"
+    - "plots/crisp_dm_v4/best_rmse_by_algorithm.png"
+    - "plots/crisp_dm_v4/best_adjusted_r2_by_algorithm.png"
+    - "plots/crisp_dm_v4/feature_ranking_frequency.png"
+    - "plots/crisp_dm_v4/algorithm_feature_selection_heatmap.png"
+    - "plots/crisp_dm_v4/top5_feature_selection_comparison.png"
+    - "plots/crisp_dm_v4/best_selected_features_by_algorithm.png"
+    - "plots/crisp_dm_v4/best_model_actual_vs_predicted.png"
+
+important_v4_change:
+  before: "The summary table emphasized global best subsets by feature count, which made it look like algorithms reused the same feature set."
+  after: "The summary now lists each algorithm's own top-5 selected feature set, with RMSE and R-squared."
+  new_focus: "Compare per-algorithm selected features instead of only global best feature combinations."
+
+key_results:
+  strongest_feature: "R&D Spend"
+  rd_ranked_top1: "10/10 algorithms"
+  marketing_role: "Usually selected as an important supporting feature."
+  administration_role: "Often selected, but still treated cautiously as possible operating-cost noise."
+  state_warning: "State dummy variables should not be over-interpreted because the dataset has only 50 rows."
+  best_overall_test_model:
+    algorithm: "SelectKBest_f_regression"
+    k: 1
+    features:
+      - "R&D Spend"
+    rmse: 7714.33
+    r_squared: 0.9265
+    adjusted_r_squared: 0.9173
+  best_top5_algorithm:
+    algorithm: "SelectKBest_f_regression"
+    features:
+      - "R&D Spend"
+      - "Marketing Spend"
+      - "State_California"
+      - "State_New York"
+      - "State_Florida"
+    rmse: 8254.69
+    r_squared: 0.9159
+
+readme_updates:
+  - "Added v4 script to project structure."
+  - "Added v4 run command."
+  - "Added v4 output folders."
+  - "Added links to v4 all-in-one summary plot and per-algorithm selected-features plot."
+
+commands_verified:
+  - "python 50_startups_crisp_dm_v4_top5_feature_selection_10_visual.py"
+  - "git push origin main"
+
+next_agent_notes:
+  - "Do not reintroduce RFE_LinearRegression or RFECV_LinearRegression unless plot scaling is handled separately."
+  - "If improving visuals, preserve per-algorithm top-5 selected feature reporting."
+  - "The project is already pushed to GitHub at origin/main."

@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "lint": "hyperframes lint",
+    "inspect": "hyperframes inspect",
+    "preview": "hyperframes preview",
+    "render": "hyperframes render --output renders/startup-profit-code-video.mp4 --quality standard"
+  },
+  "dependencies": {
+    "hyperframes": "^0.6.91"
+  },
+  "devDependencies": {}
+}

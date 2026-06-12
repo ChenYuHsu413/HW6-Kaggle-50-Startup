@@ -2,6 +2,13 @@
 
 ## Demo
 
+| Updated Video Demo | URL |
+|---|---|
+| Presentation video V1 - PPTX element-cut version | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/startup-presentation-video-pptx/renders/startup-profit-presentation.mp4> |
+| Presentation video V2 - dynamic cut version | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/startup-presentation-video-v2/renders/startup-profit-presentation-v2.mp4> |
+| 0612 Gemini segmentation video - experimental | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/startup_profit_video/renders/startup_profit_presentation.mp4> |
+| 0612 ChatGPT segmentation video - code deck, under 2 minutes | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/startup-profit-code-video/renders/startup-profit-code-video.mp4> |
+
 | Demo | URL |
 |---|---|
 | 📖 Tutorial webpage (slide deck + notes) | <https://chenyuhsu413.github.io/HW6-Kaggle-50-Startup/tutorial/> |
@@ -12,6 +19,15 @@
 
 > The GitHub Pages links require Pages to be enabled once:
 > repo **Settings → Pages → Deploy from a branch → `main` / `(root)`**.
+
+## Video Versions
+
+| Version | Source / Prompt Note | Element Strategy | Result Note | Output |
+|---|---|---|---|---|
+| `startup-presentation-video-pptx/` | Earlier ChatGPT prompt explicitly requested getting elements from each slide. | Rectangular element cutting from the slide deck. | Current preferred older reference video. | `startup-presentation-video-pptx/renders/startup-profit-presentation.mp4` |
+| `startup-presentation-video-v2/` | Claude Fable5 prompt did not explicitly request element separation. | More dynamic whole-slide / staged presentation approach. | Faster 76.5s dynamic cut. | `startup-presentation-video-v2/renders/startup-profit-presentation-v2.mp4` |
+| `startup_profit_video/` | 0612 Gemini prompt requested segmentation for the 10-algorithm topic. | Segmentation-based extraction attempt. | Experimental; segmentation quality was weak and less suitable as the final reference. | `startup_profit_video/renders/startup_profit_presentation.mp4` |
+| `startup-profit-code-video/` | 0612 ChatGPT prompt requested segmentation-style element separation from `Startup_Profit_Code.pptx` / PDF, upbeat female narration, and total duration under 2 minutes. | PDF-to-PNG, OpenCV element detection, transparent layer extraction, inpainted backgrounds, GSAP layer entrances, Edge TTS narration. | Rendered successfully; 97.99s final MP4 with narration. | `startup-profit-code-video/renders/startup-profit-code-video.mp4` |
 
 ## Project Overview
 
@@ -47,12 +63,19 @@ The `sources/` folder contains the original dataset and should not be deleted.
 | `streamlit_app.py` | Interactive Streamlit app (tutorial slides, data exploration, model comparison, profit predictor) |
 | `tutorial/index.html` | Standalone tutorial webpage for the presentation deck |
 | `sources/50_Startups.csv` | Original dataset |
+| `sources/Startup_Profit_Code.pptx` | 0612 code-focused presentation source deck |
+| `sources/Startup_Profit_Code.pdf` | PDF export used by the segmentation video pipeline |
+| `scripts/build_startup_profit_code_video.py` | Automated PDF-to-HyperFrames video pipeline with layer detection and narration |
 | `outputs/figures/` | Generated charts and the workflow image |
 | `outputs/metrics/` | Generated CSV metric tables |
 | `design.md` | Project design requirements |
 | `hw6.md` | Homework report summary |
+| `logs/` | Daily work reports and handoff notes |
 | `archive/` | Earlier draft scripts and development log (reference only) |
 | `startup-presentation-video-pptx/` | Presentation video project and final MP4 render |
+| `startup-presentation-video-v2/` | V2 dynamic presentation video project and final MP4 render |
+| `startup_profit_video/` | 0612 Gemini segmentation experiment video project |
+| `startup-profit-code-video/` | 0612 ChatGPT segmentation-style code-deck video project under 2 minutes |
 
 ## Methodology
 
@@ -111,6 +134,20 @@ streamlit run streamlit_app.py
 
 Tutorial webpage: open `tutorial/index.html` in a browser (slide images are loaded
 from `startup-presentation-video-pptx/assets/slides/`, so keep the repo layout intact).
+
+Build the 0612 ChatGPT segmentation-style code-deck video:
+
+```bash
+python scripts/build_startup_profit_code_video.py
+cd startup-profit-code-video
+npx hyperframes lint
+npx hyperframes inspect --samples 12
+npx hyperframes render --output renders/startup-profit-code-video.mp4 --quality standard
+```
+
+On this Windows workspace, rendering used the existing `ffmpeg-static` binary from
+`startup-presentation-video-v2/node_modules/ffmpeg-static/` because system FFmpeg
+was not installed globally.
 
 ## Outputs
 

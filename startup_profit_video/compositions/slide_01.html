@@ -1,0 +1,43 @@
+<template id="slide_01-template">
+  <div data-composition-id="slide_01" data-width="2867" data-height="1600" class="slide-container">
+    
+    <img class="bg-layer" src="../output/slide_01/background.png" />
+    <img id="layer_01" class="layer" src="../output/slide_01/layer_01.png" style="position: absolute; left: 0px; top: 28px; width: 1264px; height: 603px; z-index: 1;" />
+    <img id="layer_02" class="layer" src="../output/slide_01/layer_02.png" style="position: absolute; left: 66px; top: 34px; width: 2801px; height: 1091px; z-index: 2;" />
+    <img id="layer_03" class="layer" src="../output/slide_01/layer_03.png" style="position: absolute; left: 26px; top: 599px; width: 2841px; height: 1001px; z-index: 3;" />
+    <img id="layer_04" class="layer" src="../output/slide_01/layer_04.png" style="position: absolute; left: 1039px; top: 972px; width: 121px; height: 51px; z-index: 4;" />
+
+    <style>
+      .slide-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .bg-layer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+      .layer {
+        transform-origin: center;
+      }
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      
+      tl.from("#layer_01", { y: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.20);
+      tl.from("#layer_02", { y: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.45);
+      tl.from("#layer_03", { opacity: 0, duration: 0.7, ease: "power2.out" }, 0.70);
+      tl.from("#layer_04", { scale: 0.6, opacity: 0, duration: 0.7, ease: "back.out(1.5)" }, 0.95);
+      
+      window.__timelines["slide_01"] = tl;
+    </script>
+  </div>
+</template>

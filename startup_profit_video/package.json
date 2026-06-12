@@ -1,0 +1,8 @@
+{
+  "name": "startup-profit-video",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx hyperframes preview",
+    "render": "npx hyperframes render --output renders/startup_profit_presentation.mp4"
+  }
+}

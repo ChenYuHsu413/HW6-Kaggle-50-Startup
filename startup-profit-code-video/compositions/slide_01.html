@@ -1,0 +1,48 @@
+<template id="slide-01-template">
+  <div id="slide-01" data-composition-id="slide-01" data-width="2868" data-height="1600">
+    <div class="slide-stage">
+      <img class="slide-bg" src="../assets/slides/slide_01/background.png" alt="" />
+      <img class="slide-layer layer-01" src="../assets/slides/slide_01/element_01.png" data-layout-allow-overflow style="left:0px; top:8px; width:1264px; height:643px; z-index:3;" alt="" />
+      <img class="slide-layer layer-02" src="../assets/slides/slide_01/element_02.png" data-layout-allow-overflow style="left:42px; top:14px; width:2826px; height:1131px; z-index:4;" alt="" />
+      <img class="slide-layer layer-03" src="../assets/slides/slide_01/element_03.png" data-layout-allow-overflow style="left:2px; top:579px; width:2866px; height:1021px; z-index:5;" alt="" />
+      <img class="slide-layer layer-04" src="../assets/slides/slide_01/element_04.png" data-layout-allow-overflow style="left:1015px; top:952px; width:169px; height:91px; z-index:6;" alt="" />
+    </div>
+    <style>
+      #slide-01 {
+        position: relative;
+        width: 2868px;
+        height: 1600px;
+        overflow: hidden;
+        background: #050505;
+      }
+      #slide-01 .slide-stage {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      #slide-01 .slide-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+      }
+      #slide-01 .slide-layer {
+        position: absolute;
+        object-fit: contain;
+        will-change: transform, opacity;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+      tl.from('.layer-01', { y: -90, autoAlpha: 0, duration: 0.7, ease: 'power3.out' }, 0.20);
+      tl.from('.layer-02', { scale: 0.92, autoAlpha: 0, duration: 0.7, ease: 'power3.out' }, 0.45);
+      tl.from('.layer-03', { scale: 0.92, autoAlpha: 0, duration: 0.7, ease: 'power3.out' }, 0.70);
+      tl.from('.layer-04', { scale: 0.92, autoAlpha: 0, duration: 0.7, ease: 'power3.out' }, 0.95);
+      window.__timelines["slide-01"] = tl;
+    </script>
+  </div>
+</template>

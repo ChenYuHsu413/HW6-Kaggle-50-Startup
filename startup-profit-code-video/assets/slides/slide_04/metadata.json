@@ -1,0 +1,19 @@
+{
+  "slide": 4,
+  "width": 2868,
+  "height": 1600,
+  "background": "background.png",
+  "elements": [
+    {
+      "index": 1,
+      "x": 469,
+      "y": 48,
+      "width": 1936,
+      "height": 224,
+      "area": 433664,
+      "animation": "slide-down",
+      "z_index": 3,
+      "image": "element_01.png"
+    }
+  ]
+}

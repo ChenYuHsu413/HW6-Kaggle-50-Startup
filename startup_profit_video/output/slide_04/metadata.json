@@ -1,0 +1,16 @@
+{
+    "slide_width": 2867,
+    "slide_height": 1600,
+    "layers": [
+        {
+            "id": "layer_01",
+            "file": "layer_01.png",
+            "x": 493,
+            "y": 68,
+            "width": 1888,
+            "height": 184,
+            "z_index": 1,
+            "animation": "slide-down"
+        }
+    ]
+}

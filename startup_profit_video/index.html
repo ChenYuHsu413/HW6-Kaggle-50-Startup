@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>PowerPoint HyperFrames Video</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+    }
+    .main-video {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #0f141c;
+    }
+    .slide-host {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- 根合成加入 data-start="0" -->
+  <div data-composition-id="root" data-start="0" data-width="1920" data-height="1080" class="main-video">
+    <div id="slide_01" class="slide-host" data-composition-id="slide_01" data-composition-src="compositions/slide_01.html" data-start="0.00" data-duration="11.63" data-track-index="1"></div>
+    <div id="slide_02" class="slide-host" data-composition-id="slide_02" data-composition-src="compositions/slide_02.html" data-start="11.13" data-duration="10.09" data-track-index="2"></div>
+    <div id="slide_03" class="slide-host" data-composition-id="slide_03" data-composition-src="compositions/slide_03.html" data-start="20.72" data-duration="10.19" data-track-index="1"></div>
+    <div id="slide_04" class="slide-host" data-composition-id="slide_04" data-composition-src="compositions/slide_04.html" data-start="30.40" data-duration="9.68" data-track-index="2"></div>
+    <div id="slide_05" class="slide-host" data-composition-id="slide_05" data-composition-src="compositions/slide_05.html" data-start="39.59" data-duration="11.10" data-track-index="1"></div>
+    <div id="slide_06" class="slide-host" data-composition-id="slide_06" data-composition-src="compositions/slide_06.html" data-start="50.19" data-duration="9.54" data-track-index="2"></div>
+    <div id="slide_07" class="slide-host" data-composition-id="slide_07" data-composition-src="compositions/slide_07.html" data-start="59.22" data-duration="9.32" data-track-index="1"></div>
+    <div id="slide_08" class="slide-host" data-composition-id="slide_08" data-composition-src="compositions/slide_08.html" data-start="68.05" data-duration="10.38" data-track-index="2"></div>
+    <div id="slide_09" class="slide-host" data-composition-id="slide_09" data-composition-src="compositions/slide_09.html" data-start="77.93" data-duration="9.30" data-track-index="1"></div>
+    <div id="slide_10" class="slide-host" data-composition-id="slide_10" data-composition-src="compositions/slide_10.html" data-start="86.72" data-duration="10.79" data-track-index="2"></div>
+    <div id="slide_11" class="slide-host" data-composition-id="slide_11" data-composition-src="compositions/slide_11.html" data-start="97.01" data-duration="12.20" data-track-index="1"></div>
+    <div id="slide_12" class="slide-host" data-composition-id="slide_12" data-composition-src="compositions/slide_12.html" data-start="108.71" data-duration="9.01" data-track-index="2"></div>
+    <audio id="audio_01" class="clip" src="assets/narration/slide_01.mp3" data-start="0.00" data-duration="10.83" data-track-index="5" data-volume="1"></audio>
+    <audio id="audio_02" class="clip" src="assets/narration/slide_02.mp3" data-start="11.13" data-duration="9.29" data-track-index="6" data-volume="1"></audio>
+    <audio id="audio_03" class="clip" src="assets/narration/slide_03.mp3" data-start="20.72" data-duration="9.39" data-track-index="7" data-volume="1"></audio>
+    <audio id="audio_04" class="clip" src="assets/narration/slide_04.mp3" data-start="30.40" data-duration="8.88" data-track-index="8" data-volume="1"></audio>
+    <audio id="audio_05" class="clip" src="assets/narration/slide_05.mp3" data-start="39.59" data-duration="10.30" data-track-index="9" data-volume="1"></audio>
+    <audio id="audio_06" class="clip" src="assets/narration/slide_06.mp3" data-start="50.19" data-duration="8.74" data-track-index="10" data-volume="1"></audio>
+    <audio id="audio_07" class="clip" src="assets/narration/slide_07.mp3" data-start="59.22" data-duration="8.52" data-track-index="11" data-volume="1"></audio>
+    <audio id="audio_08" class="clip" src="assets/narration/slide_08.mp3" data-start="68.05" data-duration="9.58" data-track-index="12" data-volume="1"></audio>
+    <audio id="audio_09" class="clip" src="assets/narration/slide_09.mp3" data-start="77.93" data-duration="8.50" data-track-index="13" data-volume="1"></audio>
+    <audio id="audio_10" class="clip" src="assets/narration/slide_10.mp3" data-start="86.72" data-duration="9.99" data-track-index="14" data-volume="1"></audio>
+    <audio id="audio_11" class="clip" src="assets/narration/slide_11.mp3" data-start="97.01" data-duration="11.40" data-track-index="15" data-volume="1"></audio>
+    <audio id="audio_12" class="clip" src="assets/narration/slide_12.mp3" data-start="108.71" data-duration="8.21" data-track-index="16" data-volume="1"></audio>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    window.__timelines = window.__timelines || {};
+    const rootTl = gsap.timeline({ paused: true });
+    
+    // 投影片轉場淡入動畫
+    rootTl.from("#slide_02", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 11.13);
+    rootTl.from("#slide_03", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 20.72);
+    rootTl.from("#slide_04", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 30.40);
+    rootTl.from("#slide_05", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 39.59);
+    rootTl.from("#slide_06", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 50.19);
+    rootTl.from("#slide_07", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 59.22);
+    rootTl.from("#slide_08", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 68.05);
+    rootTl.from("#slide_09", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 77.93);
+    rootTl.from("#slide_10", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 86.72);
+    rootTl.from("#slide_11", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 97.01);
+    rootTl.from("#slide_12", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 108.71);
+    
+    // 結尾時整部影片淡出到黑色
+    rootTl.to(".main-video", { opacity: 0, duration: 1.0 }, 116.72);
+    
+    window.__timelines["root"] = rootTl;
+  </script>
+</body>
+</html>

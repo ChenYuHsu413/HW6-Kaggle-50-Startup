@@ -1,0 +1,51 @@
+<template id="slide_07-template">
+  <div data-composition-id="slide_07" data-width="2867" data-height="1600" class="slide-container">
+    
+    <img class="bg-layer" src="../output/slide_07/background.png" />
+    <img id="layer_01" class="layer" src="../output/slide_07/layer_01.png" style="position: absolute; left: 320px; top: 39px; width: 121px; height: 51px; z-index: 1;" />
+    <img id="layer_02" class="layer" src="../output/slide_07/layer_02.png" style="position: absolute; left: 2654px; top: 39px; width: 202px; height: 153px; z-index: 2;" />
+    <img id="layer_03" class="layer" src="../output/slide_07/layer_03.png" style="position: absolute; left: 664px; top: 70px; width: 1544px; height: 255px; z-index: 3;" />
+    <img id="layer_04" class="layer" src="../output/slide_07/layer_04.png" style="position: absolute; left: 2329px; top: 159px; width: 146px; height: 72px; z-index: 4;" />
+    <img id="layer_05" class="layer" src="../output/slide_07/layer_05.png" style="position: absolute; left: 0px; top: 341px; width: 2867px; height: 1222px; z-index: 5;" />
+    <img id="layer_06" class="layer" src="../output/slide_07/layer_06.png" style="position: absolute; left: 58px; top: 686px; width: 121px; height: 52px; z-index: 6;" />
+    <img id="layer_07" class="layer" src="../output/slide_07/layer_07.png" style="position: absolute; left: 2560px; top: 826px; width: 307px; height: 126px; z-index: 7;" />
+    <img id="layer_08" class="layer" src="../output/slide_07/layer_08.png" style="position: absolute; left: 2587px; top: 1534px; width: 280px; height: 66px; z-index: 8;" />
+
+    <style>
+      .slide-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .bg-layer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+      .layer {
+        transform-origin: center;
+      }
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      
+      tl.from("#layer_01", { y: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.20);
+      tl.from("#layer_02", { y: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.45);
+      tl.from("#layer_03", { y: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.70);
+      tl.from("#layer_04", { y: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.95);
+      tl.from("#layer_05", { y: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 1.20);
+      tl.from("#layer_06", { x: -60, opacity: 0, duration: 0.7, ease: "power3.out" }, 1.45);
+      tl.from("#layer_07", { x: 60, opacity: 0, duration: 0.7, ease: "power3.out" }, 1.70);
+      tl.from("#layer_08", { x: 60, opacity: 0, duration: 0.7, ease: "power3.out" }, 1.95);
+      
+      window.__timelines["slide_07"] = tl;
+    </script>
+  </div>
+</template>

@@ -1,0 +1,56 @@
+{
+    "slide_width": 2867,
+    "slide_height": 1600,
+    "layers": [
+        {
+            "id": "layer_01",
+            "file": "layer_01.png",
+            "x": 56,
+            "y": 0,
+            "width": 2713,
+            "height": 1335,
+            "z_index": 1,
+            "animation": "slide-down"
+        },
+        {
+            "id": "layer_02",
+            "file": "layer_02.png",
+            "x": 360,
+            "y": 795,
+            "width": 321,
+            "height": 136,
+            "z_index": 2,
+            "animation": "slide-right"
+        },
+        {
+            "id": "layer_03",
+            "file": "layer_03.png",
+            "x": 397,
+            "y": 1055,
+            "width": 309,
+            "height": 266,
+            "z_index": 3,
+            "animation": "slide-right"
+        },
+        {
+            "id": "layer_04",
+            "file": "layer_04.png",
+            "x": 185,
+            "y": 1382,
+            "width": 2513,
+            "height": 143,
+            "z_index": 4,
+            "animation": "fade-in"
+        },
+        {
+            "id": "layer_05",
+            "file": "layer_05.png",
+            "x": 2587,
+            "y": 1534,
+            "width": 280,
+            "height": 66,
+            "z_index": 5,
+            "animation": "slide-left"
+        }
+    ]
+}
